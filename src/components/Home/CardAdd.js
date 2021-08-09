@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent, IconButton } from "@material-ui/core";
 import AddCircleOutlinedIcon from "@material-ui/icons/AddCircleOutlined";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -29,9 +30,11 @@ export default function SimpleCard() {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <IconButton>
-          <AddCircleOutlinedIcon fontSize="large" />
-        </IconButton>
+        <Link to="/newproject">
+          <IconButton>
+            <AddCircleOutlinedIcon fontSize="large" />
+          </IconButton>
+        </Link>
       </CardContent>
     </Card>
   );

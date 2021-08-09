@@ -14,11 +14,10 @@ import {
   List,
   ListItem,
 } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import AddIcon from "@material-ui/icons/Add";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
@@ -29,15 +28,24 @@ const section1 = [
   { text: "Login", icon: <AccountBoxIcon />, link: "/signin" },
 ];
 const section2 = [
-  { text: "Inbox", icon: <MailIcon />, link: "#" },
-  { text: "Starred", icon: <InboxIcon />, link: "#" },
-  { text: "Send email", icon: <MailIcon />, link: "#" },
-  { text: "Drafts", icon: <InboxIcon />, link: "#" },
+  { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
+  { text: "Inbox", icon: <PersonAddIcon />, link: "#" },
+  { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
+  { text: "Send email", icon: <PersonAddIcon />, link: "#" },
+  { text: "Drafts", icon: <AccountBoxIcon />, link: "#" },
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  titleLink: {
+    textDecoration: "inherit",
+    color: "inherit",
+  },
+  title: {
+    paddingTop: 11,
+    paddingBottom: 11,
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -59,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
+  // },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -75,9 +84,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveDrawer(props) {
   const { window } = props;
+  const { title } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  console.log(theme.breakpoints.up);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -85,7 +97,11 @@ function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <Link to="/" className={classes.titleLink}>
+        <Typography variant="h4" align="center" className={classes.title}>
+          Amiba
+        </Typography>
+      </Link>
       <Divider />
       <List>
         {section1.map(({ text, icon, link }, index) => (
@@ -100,10 +116,12 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {section2.map(({ text, icon, link }, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+          <Link className={classes.link} to={link} key={text}>
+            <ListItem button>
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     </div>
@@ -127,7 +145,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Amiba Dashboard
+            {title}
           </Typography>
         </Toolbar>
       </AppBar>

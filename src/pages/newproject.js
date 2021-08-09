@@ -1,10 +1,7 @@
 import React from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-// import { Fab } from "@material-ui/core";
-// import AddIcon from "@material-ui/icons/Add";
-// import { useHistory } from "react-router-dom";
 import ResponsiveDrawer from "../components/ResponsiveDrawer";
-import Container from "../components/Home/Container";
+import NewProject from "../components/NewProject";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -18,16 +15,11 @@ const useStyles = makeStyles((theme) =>
 
 export default function Home() {
   const classes = useStyles();
-  // let history = useHistory();
-
-  // const handleNext = () => {
-  //   history.push("/signin");
-  // };
 
   return (
     <div className={classes.root}>
-      <ResponsiveDrawer title="Amiba Dashboard">
-        <Container />
+      <ResponsiveDrawer title="Create a new project">
+        <NewProject />
       </ResponsiveDrawer>
     </div>
   );
