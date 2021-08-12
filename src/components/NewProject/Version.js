@@ -4,7 +4,7 @@ import React from "react";
 export default function Version() {
   return (
     <div>
-      <Typography>Versioning</Typography>
+      <Typography>Versions will be updated here.</Typography>
     </div>
   );
 }
