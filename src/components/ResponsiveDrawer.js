@@ -18,6 +18,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AddIcon from "@material-ui/icons/Add";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
@@ -28,8 +29,8 @@ const section1 = [
   { text: "Login", icon: <AccountBoxIcon />, link: "/signin" },
 ];
 const section2 = [
+  { text: "Dashboard", icon: <DashboardIcon />, link: "/" },
   { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
-  { text: "Inbox", icon: <PersonAddIcon />, link: "#" },
   { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
   { text: "Send email", icon: <PersonAddIcon />, link: "#" },
   { text: "Drafts", icon: <AccountBoxIcon />, link: "#" },

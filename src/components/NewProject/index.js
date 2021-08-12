@@ -2,13 +2,12 @@ import React from "react";
 import { Button, CssBaseline, Typography, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextInput from "./TextInput";
+import ControlledAccordion from "./ControlledAccordion";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -24,13 +23,16 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
   },
+  apititle: {
+    margin: "1em 0",
+  },
 }));
 
 export default function NewProject() {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main">
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
@@ -39,6 +41,10 @@ export default function NewProject() {
         <form className={classes.form} noValidate>
           <TextInput name="projectname" label="Project Name" autoFocus />
           <TextInput name="projectdesc" label="Project Description" />
+          <Typography variant="h5" className={classes.apititle}>
+            API details
+          </Typography>
+          <ControlledAccordion />
           <Button
             type="submit"
             fullWidth
