@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AccordionItem from "./AccordionItem";
-import CreateApi from "./CreateApi";
-import EditApi from "./EditApi";
-import DeleteApi from "./DeleteApi";
+import CreateApi from "./createapi";
+import EditApi from "./editapi";
+import DeleteApi from "./deleteapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {

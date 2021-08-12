@@ -1,7 +1,9 @@
 import React from "react";
 import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import TextInput from "./TextInput";
+import TextInput from "../TextInput";
+import SimpleSelect from "../SimpleSelect";
+import Version from "../Version";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -11,11 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
   },
 }));
 
-export default function DeleteApi() {
+export default function CreateApi() {
   const classes = useStyles();
 
   return (
@@ -25,7 +26,12 @@ export default function DeleteApi() {
         <form className={classes.form} noValidate>
           <TextInput name="apiName" label="API Name" />
           <TextInput name="endpoint" label="Endpoint (URL)" />
-          <TextInput name="apiType" label="API Type" />
+          <SimpleSelect
+            title="API Type"
+            options={["GET", "POST", "PUT", "DELETE"]}
+          />
+          {/* VERSIONS */}
+          <Version />
         </form>
       </div>
     </Container>

@@ -1,26 +1,41 @@
 import React from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import ResponsiveDrawer from "../components/ResponsiveDrawer";
-import NewProject from "../components/NewProject";
+import { Button, CssBaseline, Typography, Container } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import TextInput from "../components/NewProject/TextInput";
+import ControlledAccordion from "../components/NewProject/ControlledAccordion";
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-  })
-);
+import newprojectStyles from "./styles/newproject";
 
-export default function Home() {
+const useStyles = makeStyles(newprojectStyles);
+
+export default function NewProject() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <ResponsiveDrawer title="Create a new project">
-        <NewProject />
-      </ResponsiveDrawer>
-    </div>
+    <Container component="main">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Project Details
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextInput name="projectname" label="Project Name" autoFocus />
+          <TextInput name="projectdesc" label="Project Description" />
+          <Typography variant="h5" className={classes.apititle}>
+            API details
+          </Typography>
+          <ControlledAccordion />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Create project
+          </Button>
+        </form>
+      </div>
+    </Container>
   );
 }

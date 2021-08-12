@@ -9,11 +9,6 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
   title: {
     fontSize: 14,
   },
@@ -22,27 +17,31 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard({ name }) {
+export default function SimpleCard({
+  title,
+  subtitle,
+  description,
+  linkText,
+  link,
+}) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5" component="h2">
-          {name}
+          {title}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          adjective
+          {subtitle}
         </Typography>
         <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small" color="primary" variant="contained">
-          Learn More
+          {linkText}
         </Button>
       </CardActions>
     </Card>

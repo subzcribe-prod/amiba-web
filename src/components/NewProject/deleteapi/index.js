@@ -1,7 +1,7 @@
 import React from "react";
 import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import TextInput from "./TextInput";
+import TextInput from "../TextInput";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditApi() {
+export default function DeleteApi() {
   const classes = useStyles();
 
   return (
