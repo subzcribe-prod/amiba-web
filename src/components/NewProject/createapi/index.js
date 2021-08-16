@@ -3,7 +3,7 @@ import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TextInput from "../TextInput";
 import SimpleSelect from "../SimpleSelect";
-import Version from "../Version";
+import VersionContainer from "./VersionContainer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
   },
 }));
 
@@ -29,9 +29,10 @@ export default function CreateApi() {
           <SimpleSelect
             title="API Type"
             options={["GET", "POST", "PUT", "DELETE"]}
+            defaultValue="GET"
           />
           {/* VERSIONS */}
-          <Version />
+          <VersionContainer />
         </form>
       </div>
     </Container>

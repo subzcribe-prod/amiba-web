@@ -13,12 +13,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect({ title, options }) {
+export default function SimpleSelect({ title, options, defaultValue }) {
   const classes = useStyles();
-  const [age, setAge] = React.useState("");
+  const [value, setValue] = React.useState(defaultValue ? defaultValue : "");
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setValue(event.target.value);
   };
 
   return (
@@ -28,7 +28,7 @@ export default function SimpleSelect({ title, options }) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={value}
           onChange={handleChange}
         >
           {options.length &&
