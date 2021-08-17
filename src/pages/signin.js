@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   CssBaseline,
@@ -13,12 +13,43 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Copyright from "../components/copyright";
-import style from "./styles/signin";
+import { useDispatch } from "react-redux";
 
-const useStyles = makeStyles(style);
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  link: {
+    textDecoration: "none",
+  },
+}));
 
-export default function SignIn() {
+export default function SignIn({ history }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  console.log(email, password);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch({ type: "LOGGED_IN_USER", payload: { email, password } });
+    history.push("/");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -27,7 +58,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -38,6 +69,8 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -49,6 +82,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

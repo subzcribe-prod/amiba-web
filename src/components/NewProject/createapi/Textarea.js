@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Textarea({ label, defaultValue }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("Controlled");
+  // const [value, setValue] = React.useState("Controlled");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setValue(event.target.value);
+  // };
 
   return (
     <form className={classes.root} noValidate autoComplete="off">

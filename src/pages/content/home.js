@@ -27,4 +27,25 @@ export const projects = [
     link: "htts://google.com",
     linkText: "Go to link",
   },
+  {
+    title: "Project 4",
+    subtitle: "adjective",
+    description: "lorem ipsum",
+    link: "htts://google.com",
+    linkText: "Go to link",
+  },
+  {
+    title: "Project 4",
+    subtitle: "adjective",
+    description: "lorem ipsum",
+    link: "htts://google.com",
+    linkText: "Go to link",
+  },
+  {
+    title: "Project 4",
+    subtitle: "adjective",
+    description: "lorem ipsum",
+    link: "htts://google.com",
+    linkText: "Go to link",
+  },
 ];

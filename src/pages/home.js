@@ -4,10 +4,18 @@ import { Grid } from "@material-ui/core";
 import Card from "../components/Home/Card";
 import CardAdd from "../components/Home/CardAdd";
 
-import homeStyles from "./styles/home";
 import { projects } from "./content/home";
 
-const useStyles = makeStyles(homeStyles);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
 
 export default function Home() {
   const classes = useStyles();
