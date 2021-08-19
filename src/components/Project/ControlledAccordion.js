@@ -1,9 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AccordionItem from "../NewProject/AccordionItem";
-import CreateApi from "../NewProject/createapi";
-import EditApi from "../NewProject/editapi";
-import DeleteApi from "../NewProject/deleteapi";
+import AccordionItem from "./AccordionItem";
+import Error404 from "../error404";
+import AddAPI from "./AddAPI";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ControlledAccordion() {
+export default function ControlledAccordion({ apis, project }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -28,29 +27,23 @@ export default function ControlledAccordion() {
     setExpanded(isExpanded ? panel : false);
   };
 
+  if (!apis) return <Error404 />;
+
   return (
     <div className={classes.root}>
-      <AccordionItem
-        title="Create User API"
-        description={<CreateApi />}
-        name="createapi"
-        isExpanded={expanded}
-        handleChange={handleChange}
-      />
-      <AccordionItem
-        title="Edit User API"
-        description={<EditApi />}
-        name="editapi"
-        isExpanded={expanded}
-        handleChange={handleChange}
-      />
-      <AccordionItem
-        title="Delete User API"
-        description={<DeleteApi />}
-        name="deleteapi"
-        isExpanded={expanded}
-        handleChange={handleChange}
-      />
+      {apis.map((item) => {
+        if (item && item.name) {
+          return (
+            <AccordionItem
+              {...item}
+              name={item.name}
+              expanded={expanded}
+              handleChange={handleChange}
+            />
+          );
+        } else return null;
+      })}
+      <AddAPI project={project} />
     </div>
   );
 }

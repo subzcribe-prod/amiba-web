@@ -7,6 +7,7 @@ import SignIn from "./pages/signin";
 import Home from "./pages/home";
 import NewProject from "./pages/newproject";
 import Project from "./pages/project";
+import NewAPI from "./pages/newapi";
 
 function Routes() {
   return (
@@ -17,6 +18,11 @@ function Routes() {
         <ResponsiveDrawer>
           <Route exact path="/newproject" component={NewProject} />
           <Route exact path="/projects/:projectname" component={Project} />
+          <Route
+            exact
+            path="/projects/:projectname/addapi"
+            component={NewAPI}
+          />
           <Route exact path="/" component={Home} />
         </ResponsiveDrawer>
       </Switch>

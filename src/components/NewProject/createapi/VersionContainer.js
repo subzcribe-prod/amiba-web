@@ -14,14 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const versions = [
-  { name: "Version 1" },
-  { name: "Version 2" },
-  { name: "Version 3" },
-  { name: "Version 4" },
-];
-
-export default function VersionContainer() {
+export default function VersionContainer({ versions }) {
   const classes = useStyles();
 
   return (

@@ -39,8 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewProject({ history }) {
   const classes = useStyles();
-  const [projectName, setProjectName] = useState("null");
-  const [projectDescription, setProjectDescription] = useState("null");
+  const [projectName, setProjectName] = useState("New Project");
+  const [projectDescription, setProjectDescription] = useState(
+    "Description of new project."
+  );
   const dispatch = useDispatch();
 
   function handleSubmit(e) {

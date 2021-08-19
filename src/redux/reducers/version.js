@@ -1,9 +1,9 @@
-export const projectReducer = (
+export const versionReducer = (
   state = [{ name: null, description: null }],
   action
 ) => {
   switch (action.type) {
-    case "ADD_NEW_PROJECT":
+    case "ADD_NEW_VERSION":
       return [...state].concat({ ...action.payload });
     default:
       return state;
