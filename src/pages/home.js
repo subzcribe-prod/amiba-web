@@ -1,34 +1,15 @@
-import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
+import Home from "../components/Home";
 
-const useStyles = makeStyles((theme) =>
-    createStyles({
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-            },
-        },
-    }),
-);
+export default function HomePage() {
+  const projects = useSelector((state) => state.projects);
 
-export default function Home() {
-    const classes = useStyles();
-    let history = useHistory();
+  if (!projects && projects.length <= 0) return null;
 
-    const handleNext = () => {
-        
-        history.push('/signin');
-      };
-
-    return (
-        <div className={classes.root}>
-            <Fab color="primary" aria-label="add">
-                <AddIcon onClick={handleNext}/>
-            </Fab>
-        </div>
-    );
+  return (
+    <>
+      <Home projects={projects} />
+    </>
+  );
 }
