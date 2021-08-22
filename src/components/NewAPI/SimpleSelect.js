@@ -5,7 +5,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     minWidth: 120,
   },
   selectEmpty: {
@@ -28,13 +29,16 @@ export default function SimpleSelect({
 
   return (
     <>
-      <FormControl className={classes.formControl}>
+      <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel id="demo-simple-select-label">{title}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
           onChange={handleChange}
+          label={title}
+          margin="normal"
+          required
         >
           {options.length &&
             options.map((type, index) => (

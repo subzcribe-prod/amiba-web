@@ -17,23 +17,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard({
-  title,
-  subtitle,
-  description,
-  linkText,
-  link,
-}) {
+export default function SimpleCard({ name, description, link }) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5" component="h2">
-          {title}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {subtitle}
+          {name}
         </Typography>
         <Typography variant="body2" component="p">
           {description}
@@ -41,7 +32,7 @@ export default function SimpleCard({
       </CardContent>
       <CardActions>
         <Button size="small" color="primary" variant="contained">
-          {linkText}
+          Go to project
         </Button>
       </CardActions>
     </Card>

@@ -27,14 +27,14 @@ export default function VersionContainer({ versions, apiType }) {
           {versions.map((item, index) => {
             if (item && item.name !== null && item.description !== null) {
               return (
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12}>
                   <ViewVersion {...item} key={item.name} />
                   versions
                 </Grid>
               );
             } else return <div />;
           })}
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+          <Grid item xs={12}>
             <AddVersion versionNumber={versions.length} apiType={apiType} />
           </Grid>
         </Grid>
