@@ -5,10 +5,10 @@ import {
   Card,
   CardContent,
   Typography,
-  TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import SimpleSelect from "./SimpleSelect";
+import Textarea from "./Textarea";
+import SimpleSelect from "../SimpleSelect";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -25,25 +25,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Version({ name, description }) {
+export default function Version({ name, label }) {
   const classes = useStyles();
 
   return (
     <Container component="main">
       <CssBaseline />
-      You have created some versions. They will be displayed here.
-      {/* <Card className={classes.card}>
+      <Card className={classes.card}>
         <CardContent>
+          {/* title with active checkbox */}
           <Typography variant="h5">{name}</Typography>
-          <TextField label="Request JSON" />
+          {/* request textarea if request type is POST */}
+          <Textarea label={"Request JSON"} />
+          {/* textarea - json */}
+
+          {/* title - response */}
+          {/* select - response code */}
           <SimpleSelect
             title="Response Code"
             options={[200, 400, 500]}
             defaultValue={200}
           />
-          <TextField label="Any valid JSON" />
+          {/* textarea - response json (payload) */}
+          <Textarea label={"Any valid JSON"} />
         </CardContent>
-      </Card> */}
+      </Card>
+      <Card></Card>
     </Container>
   );
 }

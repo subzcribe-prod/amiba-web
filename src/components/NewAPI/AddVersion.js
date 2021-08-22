@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   CssBaseline,
-  Container,
   Card,
   CardContent,
   Typography,
@@ -10,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -28,19 +28,34 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     "& input": { paddingTop: 4, fontSize: "1.3em" },
   },
+  button: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 export default function AddVersion({ versionNumber, apiType }) {
   const classes = useStyles();
+  const [name, setName] = useState("Get all users");
   const [statuscode, setStatuscode] = useState(200);
+  const [responseJson, setResponseJson] = useState(`{"":""}`);
+  const [requestJson, setRequestJson] = useState(null);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    console.log("Version created");
-    alert("Version created!!");
+    dispatch({
+      type: "ADD_NEW_VERSION",
+      payload: {
+        name: name,
+        statusCode: statuscode,
+        response: responseJson,
+        request: requestJson,
+      },
+    });
   };
 
   return (
-    <Container component="main">
+    <>
       <CssBaseline />
       <Card className={classes.card}>
         <CardContent>
@@ -54,6 +69,8 @@ export default function AddVersion({ versionNumber, apiType }) {
                 variant="standard"
                 placeholder="Version Name *"
                 required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </>
           )}
@@ -64,8 +81,9 @@ export default function AddVersion({ versionNumber, apiType }) {
               multiline
               rows={4}
               variant="outlined"
-              margin="normal"
               required
+              value={requestJson}
+              onChange={(e) => setRequestJson(e.target.value)}
             />
           )}
           <div>
@@ -84,18 +102,24 @@ export default function AddVersion({ versionNumber, apiType }) {
               multiline
               rows={10}
               variant="outlined"
-              margin="normal"
               placeholder="Enter response JSON here"
               required
+              value={responseJson}
+              onChange={(e) => setResponseJson(e.target.value)}
             />
           </div>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClick}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              color="primary"
+              onClick={handleClick}
+            >
               create version
             </Button>
           </div>
         </CardContent>
       </Card>
-    </Container>
+    </>
   );
 }

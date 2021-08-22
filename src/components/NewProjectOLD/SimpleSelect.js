@@ -5,8 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(1),
     minWidth: 120,
   },
   selectEmpty: {
@@ -14,14 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect({
-  title,
-  options,
-  defaultValue,
-  value,
-  setValue,
-}) {
+export default function SimpleSelect({ title, options, defaultValue }) {
   const classes = useStyles();
+  const [value, setValue] = React.useState(defaultValue ? defaultValue : "");
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -29,22 +23,17 @@ export default function SimpleSelect({
 
   return (
     <>
-      <FormControl variant="outlined" className={classes.formControl}>
+      <FormControl className={classes.formControl}>
         <InputLabel id="demo-simple-select-label">{title}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
           onChange={handleChange}
-          label={title}
-          margin="normal"
-          required
         >
           {options.length &&
             options.map((type, index) => (
-              <MenuItem key={`options-${type}-${index + 1}`} value={type}>
-                {type}
-              </MenuItem>
+              <MenuItem value={type}>{type}</MenuItem>
             ))}
         </Select>
       </FormControl>

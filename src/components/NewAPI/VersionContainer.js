@@ -1,8 +1,9 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import ViewVersion from "./ViewVersion";
 import AddVersion from "./AddVersion";
 import { makeStyles } from "@material-ui/core/styles";
+import ViewVersions from "./ViewVersions";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,30 +16,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VersionContainer({ versions, apiType }) {
+export default function VersionContainer({ apiType }) {
   const classes = useStyles();
-  console.log(versions);
+  const versions = useSelector((state) => state.versions);
   if (!versions) return <>no versions</>;
 
   return (
     <>
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          {versions.map((item, index) => {
-            if (item && item.name !== null && item.description !== null) {
-              return (
-                <Grid item xs={12}>
-                  <ViewVersion {...item} key={item.name} />
-                  versions
-                </Grid>
-              );
-            } else return <div />;
-          })}
-          <Grid item xs={12}>
-            <AddVersion versionNumber={versions.length} apiType={apiType} />
-          </Grid>
-        </Grid>
-      </div>
+      <ViewVersions versions={versions} />
+      <AddVersion versionNumber={versions.length} apiType={apiType} />
     </>
   );
 }
