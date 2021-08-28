@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   CssBaseline,
-  TextField,
   FormControlLabel,
   Checkbox,
   Grid,
@@ -13,6 +12,15 @@ import {
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../components/copyright";
+import TextInput from "../components/Signup/TextInput";
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+  validateUsername,
+} from "../helper functions/validators";
+import { signup } from "../redux/actions/auth";
+// import { validateSignup } from "../helper functions/validators";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,6 +47,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [firstname, setFirstname] = useState("Sanket");
+  const [lastname, setLastname] = useState("Chauhan");
+  const [email, setEmail] = useState("sanket@email.com");
+  const [username, setUsername] = useState("sanketchauhan");
+  const [password, setPassword] = useState("123456789");
+  // const [confirmpassword, setConfirmpassword] = useState("");
+  // const [errors, setErrors] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signup({
+        firstname,
+        lastname,
+        email,
+        userName: username,
+        password,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -47,54 +77,56 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
+              <TextInput
                 label="First Name"
-                autoFocus
+                value={firstname}
+                setValue={setFirstname}
+                autofocus
+                validator={validateName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
+              <TextInput
                 label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                value={lastname}
+                setValue={setLastname}
+                validator={validateName}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+              <TextInput
+                label="Email"
+                value={email}
+                setValue={setEmail}
+                validator={validateEmail}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
+              <TextInput
+                label="Username"
+                value={username}
+                setValue={setUsername}
+                validator={validateUsername}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextInput
                 label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                value={password}
+                setValue={setPassword}
+                validator={validatePassword}
               />
             </Grid>
+            {/* <Grid item xs={12}>
+              <TextInput
+                label="Confirm Password"
+                value={confirmpassword}
+                setValue={setConfirmpassword}
+              />
+            </Grid> */}
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}

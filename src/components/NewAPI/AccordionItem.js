@@ -24,8 +24,8 @@ export default function AccordionItem({
   statusCode,
   request,
   response,
-  handleChange,
   name,
+  handleChange,
   panel,
   expanded,
 }) {

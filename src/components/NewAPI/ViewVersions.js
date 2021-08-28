@@ -33,7 +33,6 @@ export default function ViewVersions() {
   return (
     <div className={classes.root}>
       {versions.map((item) => {
-        console.log(item);
         if (item && item.name) {
           return (
             <AccordionItem
