@@ -25,16 +25,13 @@ import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 const section1 = [
-  { text: "Sign up", icon: <PersonAddIcon />, link: "/signup" },
-  { text: "Login", icon: <AccountBoxIcon />, link: "/signin" },
-];
-const section2 = [
   { text: "Dashboard", icon: <DashboardIcon />, link: "/" },
   { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
   { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
   { text: "Send email", icon: <PersonAddIcon />, link: "#" },
   { text: "Drafts", icon: <AccountBoxIcon />, link: "#" },
 ];
+const section2 = [{ text: "Drafts", icon: <AccountBoxIcon />, link: "#" }];
 
 const useStyles = makeStyles((theme) => ({
   root: {

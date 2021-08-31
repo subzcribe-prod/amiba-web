@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Button,
   CssBaseline,
-  TextField,
   FormControlLabel,
   Checkbox,
   Grid,
@@ -14,6 +13,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Copyright from "../components/copyright";
 import { useDispatch } from "react-redux";
+import {
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "../helper functions/validators";
+import TextInput from "../components/Signup/TextInput";
+import { signin } from "../redux/actions/auth";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,17 +47,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function SignIn({ history }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  console.log(email, password);
+  const [email, setEmail] = useState("sanket@email.in");
+  const [username, setUsername] = useState("sanket");
+  const [password, setPassword] = useState("sanket");
+  const [snack, setSnack] = useState(null);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnack(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: "LOGGED_IN_USER", payload: { email, password } });
-    history.push("/");
+    let user = {
+      email,
+      userName: username,
+      password,
+    };
+    try {
+      const res = await signin(user);
+      if (res.status === 200) {
+        setSnack({ type: "success", msg: res.data.msg });
+        // console.log(res);
+        user.token = res.data.token;
+        const saveUser = _.pick(user, ["userName", "email", "token"]);
+        localStorage.setItem("user", JSON.stringify(saveUser));
+        dispatch({ type: "LOGGED_IN_USER", payload: saveUser });
+        history.push("/");
+      }
+    } catch (error) {
+      console.log("Error", error);
+      if (error.response) {
+        console.log(error.response.data);
+        setSnack({ type: "error", msg: error.response.data.msg });
+      }
+    }
   };
 
   return (
@@ -59,32 +101,33 @@ export default function SignIn({ history }) {
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextInput
+                label="Email"
+                value={email}
+                setValue={setEmail}
+                autoFocus
+                validator={validateEmail}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextInput
+                label="Username"
+                value={username}
+                setValue={setUsername}
+                validator={validateUsername}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextInput
+                label="Password"
+                value={password}
+                setValue={setPassword}
+                validator={validatePassword}
+              />
+            </Grid>
+          </Grid>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -101,14 +144,12 @@ export default function SignIn({ history }) {
           <Grid container>
             <Grid item xs>
               <Link className={classes.link} to="/">
-                <Typography variant="p" color="primary">
-                  Forgot password?
-                </Typography>
+                <Typography color="primary">Forgot password?</Typography>
               </Link>
             </Grid>
             <Grid item>
               <Link className={classes.link} to="/signup">
-                <Typography variant="p" color="primary">
+                <Typography color="primary">
                   Don't have an account? Sign Up
                 </Typography>
               </Link>
@@ -119,6 +160,17 @@ export default function SignIn({ history }) {
       <Box mt={8}>
         <Copyright />
       </Box>
+      {snack !== null && snack.msg !== null && snack.type !== null && (
+        <Snackbar
+          open={snack !== null}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={snack.type}>
+            {snack.msg}
+          </Alert>
+        </Snackbar>
+      )}
     </Container>
   );
 }

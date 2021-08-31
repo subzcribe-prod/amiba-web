@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home({ projects }) {
   const classes = useStyles();
-  console.log("projects from home component", projects);
+  // console.log("projects from home component", projects);
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>

@@ -20,6 +20,8 @@ import {
   validateUsername,
 } from "../helper functions/validators";
 import { signup } from "../redux/actions/auth";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 // import { validateSignup } from "../helper functions/validators";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,28 +47,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export default function SignUp({ history }) {
   const classes = useStyles();
   const [firstname, setFirstname] = useState("Sanket");
   const [lastname, setLastname] = useState("Chauhan");
   const [email, setEmail] = useState("sanket@email.com");
   const [username, setUsername] = useState("sanketchauhan");
-  const [password, setPassword] = useState("123456789");
+  const [password, setPassword] = useState("sanket");
+  const [snack, setSnack] = useState(null);
   // const [confirmpassword, setConfirmpassword] = useState("");
   // const [errors, setErrors] = useState(null);
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnack(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const data = {
+      email,
+      userName: username,
+      password,
+    };
     try {
-      await signup({
-        firstname,
-        lastname,
-        email,
-        userName: username,
-        password,
-      });
+      const res = await signup(data);
+      if (res.status === 200) {
+        setSnack({ type: "success", msg: res.data.msg });
+        // console.log(res);
+        history.push("/signin");
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error", error);
+      if (error.response) {
+        console.log(error.response.data);
+        setSnack({ type: "error", msg: error.response.data.msg });
+      }
     }
   };
 
@@ -84,7 +106,7 @@ export default function SignUp() {
                 label="First Name"
                 value={firstname}
                 setValue={setFirstname}
-                autofocus
+                autoFocus
                 validator={validateName}
               />
             </Grid>
@@ -146,7 +168,7 @@ export default function SignUp() {
           <Grid container justify="flex-end">
             <Grid item>
               <Link className={classes.link} to="/signin" variant="body2">
-                <Typography variant="p" color="primary">
+                <Typography color="primary">
                   Already have an account? Sign in
                 </Typography>
               </Link>
@@ -157,6 +179,17 @@ export default function SignUp() {
       <Box mt={5}>
         <Copyright />
       </Box>
+      {snack !== null && snack.msg !== null && snack.type !== null && (
+        <Snackbar
+          open={snack !== null}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={snack.type}>
+            {snack.msg}
+          </Alert>
+        </Snackbar>
+      )}
     </Container>
   );
 }
