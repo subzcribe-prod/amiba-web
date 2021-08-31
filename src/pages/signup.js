@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../components/copyright";
-import TextInput from "../components/Signup/TextInput";
+import TextInput from "../components/common/TextInput";
 import {
   validateEmail,
   validateName,

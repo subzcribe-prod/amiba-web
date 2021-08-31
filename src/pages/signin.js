@@ -18,7 +18,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../helper functions/validators";
-import TextInput from "../components/Signup/TextInput";
+import TextInput from "../components/common/TextInput";
 import { signin } from "../redux/actions/auth";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";

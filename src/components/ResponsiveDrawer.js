@@ -20,7 +20,8 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AddIcon from "@material-ui/icons/Add";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -29,9 +30,8 @@ const section1 = [
   { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
   { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
   { text: "Send email", icon: <PersonAddIcon />, link: "#" },
-  { text: "Drafts", icon: <AccountBoxIcon />, link: "#" },
 ];
-const section2 = [{ text: "Drafts", icon: <AccountBoxIcon />, link: "#" }];
+const section2 = [{ text: "Logout", icon: <AccountBoxIcon /> }];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,6 +86,16 @@ function ResponsiveDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT_USER", payload: null });
+    localStorage.removeItem("user");
+    history.push("/signin");
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -100,7 +110,7 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {section1.map(({ text, icon, link }, index) => (
-          <Link className={classes.link} to={link} key={text}>
+          <Link className={classes.link} onTouchStartCapture={link} key={text}>
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
@@ -110,8 +120,8 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {section2.map(({ text, icon, link }, index) => (
-          <Link className={classes.link} to={link} key={text}>
+        {section2.map(({ text, icon }, index) => (
+          <Link className={classes.link} onClick={handleLogout} key={text}>
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
