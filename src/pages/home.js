@@ -1,31 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Home from "../components/Home";
+import { isUserAuthenticated } from "../components/Home/utils";
+import { getProjects } from "../redux/actions/projects";
 
 export default function HomePage() {
-  let user = useSelector((state) => state.user);
-  const history = useHistory();
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  // console.log("user from redux : ", user);
-  if (!user || Object.keys(user).length === 0) {
-    user = localStorage.user;
-    if (user && JSON.parse(localStorage.user)) {
-      user = JSON.parse(user);
-      dispatch({ type: "LOGGED_IN_USER", payload: user });
-      // console.log("user from local storage : ", user);
-    } else {
-      // console.log("not authenticated");
-      history.push("/signin");
-    }
-  }
-  const projects = useSelector((state) => state.projects);
 
-  if (!projects && projects.length <= 0) return null;
+  useEffect(async () => {
+    const res = await getProjects(user.userId, user.token);
+    if (res.data.data.projects && res.data.data.projects.length > 0)
+      dispatch({ type: "LOAD_PROJECTS", payload: res.data.data.projects });
+  }, [user]);
 
-  return (
-    <>
-      <Home projects={projects} />
-    </>
-  );
+  return <Home />;
 }

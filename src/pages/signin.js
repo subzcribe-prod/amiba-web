@@ -1,27 +1,26 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signin } from "../redux/actions/auth";
+
 import {
   Button,
   CssBaseline,
-  FormControlLabel,
-  Checkbox,
   Grid,
   Box,
   Typography,
   Container,
+  Snackbar,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import TextInput from "../components/common/TextInput";
 import Copyright from "../components/copyright";
-import { useDispatch } from "react-redux";
+import MuiAlert from "@material-ui/lab/Alert";
 import {
   validateEmail,
   validatePassword,
   validateUsername,
 } from "../helper functions/validators";
-import TextInput from "../components/common/TextInput";
-import { signin } from "../redux/actions/auth";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
@@ -79,7 +78,8 @@ export default function SignIn({ history }) {
         setSnack({ type: "success", msg: res.data.msg });
         // console.log(res);
         user.token = res.data.token;
-        const saveUser = _.pick(user, ["userName", "email", "token"]);
+        user.userId = res.data.userId;
+        const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
         localStorage.setItem("user", JSON.stringify(saveUser));
         dispatch({ type: "LOGGED_IN_USER", payload: saveUser });
         history.push("/");
@@ -128,10 +128,10 @@ export default function SignIn({ history }) {
               />
             </Grid>
           </Grid>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth

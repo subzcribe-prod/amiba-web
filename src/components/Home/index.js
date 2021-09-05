@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Card from "./Card";
 import CardAdd from "./CardAdd";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,28 +16,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home({ projects }) {
+export default function Home() {
   const classes = useStyles();
-  // console.log("projects from home component", projects);
+  const projects = useSelector((state) => state.projects);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {projects.map((item, index) => {
-          if (item && item.name && item.description) {
-            return (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
-                lg={4}
-                key={`project-card-${item.name}-${index}`}
-              >
-                <Card {...item} />
-              </Grid>
-            );
-          } else return null;
-        })}
+        {projects &&
+          projects.map((item, index) => {
+            if (item && item.name) {
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  lg={4}
+                  key={`project-card-${item.name}-${index}`}
+                >
+                  <Card {...item} />
+                </Grid>
+              );
+            } else return null;
+          })}
         <Grid item xs={12} sm={6} md={3} lg={4}>
           <CardAdd />
         </Grid>

@@ -110,7 +110,7 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {section1.map(({ text, icon, link }, index) => (
-          <Link className={classes.link} onTouchStartCapture={link} key={text}>
+          <Link className={classes.link} to={link} key={text}>
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
@@ -121,12 +121,12 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {section2.map(({ text, icon }, index) => (
-          <Link className={classes.link} onClick={handleLogout} key={text}>
+          <div className={classes.link} onClick={handleLogout} key={text}>
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          </Link>
+          </div>
         ))}
       </List>
     </div>
