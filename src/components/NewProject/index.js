@@ -7,8 +7,9 @@ import {
   TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { addProject } from "../../redux/actions/projects";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,18 +43,32 @@ export default function NewProject() {
   const classes = useStyles();
   const history = useHistory();
 
+  const user = useSelector((state) => state.user);
+
   const [projectName, setProjectName] = useState("New Project");
   const [projectDescription, setProjectDescription] = useState(
     "Description of new project."
   );
   const dispatch = useDispatch();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    dispatch({
-      type: "ADD_NEW_PROJECT",
-      payload: { name: projectName, description: projectDescription },
-    });
+    const res = await addProject(
+      {
+        name: projectName,
+        description: projectDescription,
+        slug: projectName,
+      },
+      user.userId,
+      user.token
+    );
+    if (res.status === 200) {
+      const projectInDb = res.data.data;
+      dispatch({
+        type: "ADD_NEW_PROJECT",
+        payload: projectInDb,
+      });
+    }
     history.push(`/projects/${projectName.toLowerCase()}`);
   }
 
