@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AccordionItem from "./AccordionItem";
 import Error404 from "../error404";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllVersions } from "../../redux/actions/versions";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +26,29 @@ export default function ViewVersions() {
   const [expanded, setExpanded] = React.useState(false);
   const versions = useSelector((state) => state.versions);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const projectslug = history.location.pathname.split("/")[2];
+  const projects = useSelector((state) => state.projects);
+  const user = useSelector((state) => state.user);
+
+  const project = projects.find(
+    ({ slug }) => slug && slug.toLowerCase() === projectslug.toLowerCase()
+  );
+  console.log(project);
+
+  useEffect(() => {
+    (async () => {
+      if (project && project.endpoints.length > 0) {
+        const versions = await getAllVersions(project.endpoints, user.token);
+        dispatch({ type: "LOAD_VERSIONS", payload: versions });
+        console.log(versions);
+        // dispatch({ type: "LOAD_VERSIONS", payload: { versions } });
+      }
+    })();
+  }, [projects]);
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -32,7 +57,7 @@ export default function ViewVersions() {
 
   return (
     <div className={classes.root}>
-      {versions.map((item) => {
+      {versions.map((item, index) => {
         if (item && item.name) {
           return (
             <AccordionItem
@@ -40,7 +65,7 @@ export default function ViewVersions() {
               expanded={expanded}
               handleChange={handleChange}
               panel={item.name.toLowerCase()}
-              key={`version-${item.name}`}
+              key={`version-${item.name}-${index + 1}`}
             />
           );
         } else return null;

@@ -15,15 +15,15 @@ import { useSelector } from "react-redux";
 //   },
 // }));
 
-export default function VersionContainer({ apiType }) {
+export default function VersionContainer({ api }) {
   // const classes = useStyles();
   const versions = useSelector((state) => state.versions);
   if (!versions) return <>no versions</>;
 
   return (
     <>
-      <ViewVersions versions={versions} />
-      <AddVersion versionNumber={versions.length} apiType={apiType} />
+      <ViewVersions />
+      <AddVersion versionNumber={versions.length} api={api} />
     </>
   );
 }

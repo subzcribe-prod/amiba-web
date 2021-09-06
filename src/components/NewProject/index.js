@@ -82,7 +82,6 @@ export default function NewProject() {
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
-            margin="normal"
             required
             fullWidth
             id="projectname"
@@ -94,7 +93,6 @@ export default function NewProject() {
           />
           <TextField
             variant="outlined"
-            margin="normal"
             required
             fullWidth
             id="projectdesc"

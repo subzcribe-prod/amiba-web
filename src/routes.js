@@ -17,7 +17,7 @@ function Routes() {
         <Route exact path="/signup" component={SignUp} />
         <ResponsiveDrawer>
           <Route exact path="/newproject" component={NewProject} />
-          <Route exact path="/projects/:projectname" component={Project} />
+          <Route exact path="/projects/:projectslug" component={Project} />
           <Route
             exact
             path="/projects/:projectname/addapi"

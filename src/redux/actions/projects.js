@@ -1,9 +1,6 @@
 import axios from "axios";
+import header from "./header";
 require("dotenv").config();
-
-const header = (token) => {
-  return { headers: { auth: token } };
-};
 
 export const getProjects = (userId, token) => {
   return axios.get(

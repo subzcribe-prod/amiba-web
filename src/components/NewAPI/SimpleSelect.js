@@ -37,7 +37,6 @@ export default function SimpleSelect({
           value={value}
           onChange={handleChange}
           label={title}
-          margin="normal"
           required
         >
           {options.length &&

@@ -19,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Project() {
-  const { projectname } = useParams();
+  const { projectslug } = useParams();
   // redux state
   const projects = useSelector((state) => state.projects);
   const apis = useSelector((state) => state.apis);
   // console.log(projects);
-  const project = projects.filter(
-    ({ name }) => name && name.toLowerCase() === projectname.toLowerCase()
-  )[0];
+  const project = projects.find(
+    ({ slug }) => slug && slug.toLowerCase() === projectslug.toLowerCase()
+  );
   console.log(project);
   const classes = useStyles();
 

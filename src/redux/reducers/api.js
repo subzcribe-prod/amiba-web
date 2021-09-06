@@ -1,5 +1,5 @@
 export const apiReducer = (
-  state = [{ name: null, endpoint: null, status: null }],
+  state = [{ name: null, slug: null, type: null, projectId: null }],
   action
 ) => {
   switch (action.type) {

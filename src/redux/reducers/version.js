@@ -3,6 +3,8 @@ export const versionReducer = (
   action
 ) => {
   switch (action.type) {
+    case "LOAD_VERSIONS":
+      return action.payload;
     case "ADD_NEW_VERSION":
       return [...state].concat({ ...action.payload });
     default:

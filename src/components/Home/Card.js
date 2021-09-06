@@ -7,6 +7,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   title: {
@@ -15,9 +16,10 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  link: { textDecoration: "none" },
 });
 
-export default function SimpleCard({ name, description, link }) {
+export default function SimpleCard({ name, description, slug }) {
   const classes = useStyles();
 
   return (
@@ -31,9 +33,11 @@ export default function SimpleCard({ name, description, link }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary" variant="contained">
-          Go to project
-        </Button>
+        <Link to={`/projects/${slug}`} className={classes.link}>
+          <Button size="small" color="primary" variant="contained">
+            Go to project
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );
