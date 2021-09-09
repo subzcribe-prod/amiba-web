@@ -5,6 +5,7 @@ import Error404 from "../error404";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllVersions } from "../../redux/actions/versions";
 import { useHistory } from "react-router-dom";
+import { selectedProject } from "../../helper functions/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,14 +30,10 @@ export default function ViewVersions() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const projectslug = history.location.pathname.split("/")[2];
   const projects = useSelector((state) => state.projects);
   const user = useSelector((state) => state.user);
 
-  const project = projects.find(
-    ({ slug }) => slug && slug.toLowerCase() === projectslug.toLowerCase()
-  );
-  console.log(project);
+  const project = selectedProject(history, projects);
 
   useEffect(() => {
     (async () => {

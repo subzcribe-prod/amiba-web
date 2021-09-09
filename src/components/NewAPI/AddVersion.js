@@ -12,6 +12,7 @@ import SimpleSelect from "./SimpleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { addVersion } from "../../redux/actions/versions";
 import { useHistory } from "react-router-dom";
+import { selectedProject } from "../../helper functions/utils";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -38,17 +39,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddVersion() {
   const classes = useStyles();
+
   const [name, setName] = useState("Get all users");
   const [statuscode, setStatuscode] = useState(200);
   const [responseJson, setResponseJson] = useState(`{"":""}`);
   const [requestJson, setRequestJson] = useState(null);
+
   const history = useHistory();
 
-  const projectslug = history.location.pathname.split("/")[2];
   const projects = useSelector((state) => state.projects);
-  const project = projects.find(
-    ({ slug }) => slug && slug.toLowerCase() === projectslug.toLowerCase()
-  );
+  const project = selectedProject(history, projects);
+
   const user = useSelector((state) => state.user);
   const apis = useSelector((state) => state.apis);
   let api;
@@ -105,7 +106,7 @@ export default function AddVersion() {
               />
             </>
           )}
-          {/* {api.type === "POST" && (
+          {api.type === "POST" && (
             <TextField
               label="Request JSON"
               fullWidth
@@ -116,7 +117,7 @@ export default function AddVersion() {
               value={requestJson}
               onChange={(e) => setRequestJson(e.target.value)}
             />
-          )} */}
+          )}
           <div>
             <SimpleSelect
               title="Response Code"

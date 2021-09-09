@@ -1,7 +1,4 @@
-export const projectReducer = (
-  state = [{ name: null, description: null }],
-  action
-) => {
+export const projectReducer = (state = null, action) => {
   switch (action.type) {
     case "LOAD_PROJECTS":
       return action.payload;

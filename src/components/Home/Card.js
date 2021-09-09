@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+// import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   title: {
@@ -21,6 +22,11 @@ const useStyles = makeStyles({
 
 export default function SimpleCard({ name, description, slug }) {
   const classes = useStyles();
+  // const dispatch = useDispatch();
+
+  // const handleClick = () => {
+  //   dispatch({ type: "SELECTED_PROJECT", payload: { project: { slug } } });
+  // };
 
   return (
     <Card className={classes.root}>
@@ -34,7 +40,12 @@ export default function SimpleCard({ name, description, slug }) {
       </CardContent>
       <CardActions>
         <Link to={`/projects/${slug}`} className={classes.link}>
-          <Button size="small" color="primary" variant="contained">
+          <Button
+            size="small"
+            color="primary"
+            variant="contained"
+            // onClick={handleClick}
+          >
             Go to project
           </Button>
         </Link>

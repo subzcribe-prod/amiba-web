@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccordionItem from "./AccordionItem";
 import Error404 from "../error404";
 import AddAPI from "./AddAPI";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ControlledAccordion({ apis, project }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  console.log("apis", apis);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);

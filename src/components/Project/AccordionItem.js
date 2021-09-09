@@ -4,9 +4,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
+  Box,
+  Button,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -19,27 +22,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AccordionItem({
-  title,
-  description,
-  handleChange,
-  name,
-  isExpanded,
-}) {
+export default function AccordionItem(props) {
   const classes = useStyles();
+  const { description, handleChange, name, expanded, slug, requestType } =
+    props;
   return (
     <>
-      <Accordion expanded={isExpanded === name} onChange={handleChange(name)}>
+      <Accordion expanded={expanded === name} onChange={handleChange(name)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${name}bh-content`}
           id={`${name}bh-header`}
         >
           <Typography variant="h5" className={classes.heading}>
-            {title}
+            {name}
           </Typography>
+          <Link to={`${window.location.pathname}${slug}`}>
+            <Button>Link</Button>
+          </Link>
         </AccordionSummary>
-        <AccordionDetails>{description}</AccordionDetails>
+        <AccordionDetails>
+          {slug && <Typography>Slug: {slug}</Typography>}
+          {requestType && <Typography>Request type : {requestType}</Typography>}
+        </AccordionDetails>
       </Accordion>
     </>
   );

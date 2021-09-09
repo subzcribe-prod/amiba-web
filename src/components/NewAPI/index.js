@@ -2,6 +2,7 @@ import { TextField, Button, Box, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { selectedProject } from "../../helper functions/utils";
 import SimpleSelect from "./SimpleSelect";
 import VersionContainer from "./VersionContainer";
 
@@ -13,11 +14,8 @@ export default function NewAPI({ versions }) {
 
   const history = useHistory();
 
-  const projectslug = history.location.pathname.split("/")[2];
   const projects = useSelector((state) => state.projects);
-  const project = projects.find(
-    ({ slug }) => slug && slug.toLowerCase() === projectslug.toLowerCase()
-  );
+  const project = selectedProject(history, projects);
   console.log(project);
 
   const dispatch = useDispatch();
@@ -27,7 +25,12 @@ export default function NewAPI({ versions }) {
     if (project) {
       dispatch({
         type: "ADD_NEW_API",
-        payload: { name: apiName, slug, type: apiType, projectId: project._id },
+        payload: {
+          name: apiName,
+          slug,
+          type: apiType,
+          projectId: project._id,
+        },
       });
     }
   };
