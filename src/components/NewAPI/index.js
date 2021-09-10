@@ -1,6 +1,6 @@
 import { TextField, Button, Box, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { selectedProject } from "../../helper functions/utils";
 import SimpleSelect from "./SimpleSelect";
@@ -14,26 +14,28 @@ export default function NewAPI({ versions }) {
 
   const history = useHistory();
 
-  const projects = useSelector((state) => state.projects);
+  const [projects, setProjects] = useState(null);
+
   const project = selectedProject(history, projects);
   console.log(project);
 
-  const dispatch = useDispatch();
-
   const handleClick = () => {
     setApi("created");
-    if (project) {
-      dispatch({
-        type: "ADD_NEW_API",
-        payload: {
-          name: apiName,
-          slug,
-          type: apiType,
-          projectId: project._id,
-        },
-      });
-    }
+    // if (project) {
+    //   dispatch({
+    //     type: "ADD_NEW_API",
+    //     payload: {
+    //       name: apiName,
+    //       slug,
+    //       type: apiType,
+    //       projectId: project._id,
+    //     },
+    //   });
+    // }
   };
+
+  const a = null;
+  if (a === null) return null;
 
   return (
     <>

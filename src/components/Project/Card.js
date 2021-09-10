@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   title: {
@@ -21,12 +21,16 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-  const { name, description, slug } = props;
+  const { name, requestType, slug, versions } = props;
+
+  const history = useHistory();
 
   const handleClick = () => {
     let user = JSON.parse(localStorage.user);
-    user.projectId = props._id;
+    user.endpointId = props._id;
     localStorage.setItem("user", JSON.stringify(user));
+    // console.log(`${window.location.pathname}${slug}/view`);
+    history.push(`${window.location.pathname}${slug}/view`);
   };
 
   return (
@@ -36,20 +40,21 @@ export default function SimpleCard(props) {
           {name}
         </Typography>
         <Typography variant="body2" component="p">
-          {description}
+          Request type: {requestType}
+        </Typography>
+        <Typography variant="body2" component="p">
+          Slug: {slug}
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/projects/${slug}`} className={classes.link}>
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={handleClick}
-          >
-            Go to project
-          </Button>
-        </Link>
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={handleClick}
+        >
+          Go to endpoint
+        </Button>
       </CardActions>
     </Card>
   );

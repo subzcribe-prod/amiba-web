@@ -7,7 +7,9 @@ import SignIn from "./pages/signin";
 import Home from "./pages/home";
 import NewProject from "./pages/newproject";
 import Project from "./pages/project";
-import NewAPI from "./pages/newapi";
+// import NewAPI from "./pages/newapi";
+import Endpoint from "./pages/endpoint";
+import NewEndpoint from "./pages/newendpoint";
 
 function Routes() {
   return (
@@ -18,10 +20,20 @@ function Routes() {
         <ResponsiveDrawer>
           <Route exact path="/newproject" component={NewProject} />
           <Route exact path="/projects/:projectslug" component={Project} />
-          <Route
+          {/* <Route
             exact
             path="/projects/:projectname/addapi"
             component={NewAPI}
+          /> */}
+          <Route
+            exact
+            path="/projects/:project/:endpoint/add"
+            component={NewEndpoint}
+          />
+          <Route
+            exact
+            path="/projects/:project/:endpoint/view"
+            component={Endpoint}
           />
           <Route exact path="/" component={Home} />
         </ResponsiveDrawer>

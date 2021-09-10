@@ -1,19 +1,71 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Home from "../components/Home";
-import { getProjects } from "../redux/actions/projects";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+import Card from "../components/Home/Card";
+import CardAdd from "../components/Home/CardAdd";
+import { getProjects } from "../axios/projects";
 
-export default function HomePage() {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
+
+export default function Home() {
+  const classes = useStyles();
+  const [projects, setProjects] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  async function load() {
+    const user = JSON.parse(localStorage.user);
+    try {
+      const res = await getProjects(user.userId, user.token);
+      const projectsFromDb = res.data.data.projects;
+      setProjects(projectsFromDb);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response);
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    (async () => {
-      const res = await getProjects(user.userId, user.token);
-      if (res.data.data.projects && res.data.data.projects.length > 0)
-        dispatch({ type: "LOAD_PROJECTS", payload: res.data.data.projects });
-    })();
-  }, [user, dispatch]);
+    load();
+  }, []);
 
-  return <Home />;
+  if (loading) return <h1>Loading..</h1>;
+
+  if (projects === null) return <h1>Null</h1>;
+
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        {projects &&
+          projects.map((item, index) => {
+            if (item && item.name) {
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  lg={4}
+                  key={`project-card-${item.name}-${index}`}
+                >
+                  <Card {...item} />
+                </Grid>
+              );
+            } else return null;
+          })}
+        <Grid item xs={12} sm={6} md={3} lg={4}>
+          <CardAdd />
+        </Grid>
+      </Grid>
+    </div>
+  );
 }

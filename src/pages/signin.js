@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { signin } from "../redux/actions/auth";
+import { signin } from "../axios/auth";
 
 import {
   Button,
@@ -52,7 +51,6 @@ function Alert(props) {
 
 export default function SignIn({ history }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("sanket@email.in");
   const [username, setUsername] = useState("sanket");
   const [password, setPassword] = useState("sanket");
@@ -76,12 +74,10 @@ export default function SignIn({ history }) {
       const res = await signin(user);
       if (res.status === 200) {
         setSnack({ type: "success", msg: res.data.msg });
-        // console.log(res);
         user.token = res.data.token;
         user.userId = res.data.userId;
         const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
         localStorage.setItem("user", JSON.stringify(saveUser));
-        dispatch({ type: "LOGGED_IN_USER", payload: saveUser });
         history.push("/");
       }
     } catch (error) {

@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 //   },
 // }));
 
-export default function AddAPI({ project }) {
+export default function AddEndpoint({ project }) {
   // const classes = useStyles();
   const history = useHistory();
 
@@ -29,7 +29,7 @@ export default function AddAPI({ project }) {
         fullWidth
         onClick={handleClick}
       >
-        Add api
+        Add endpoint
       </Button>
     </>
   );

@@ -21,15 +21,12 @@ import AddIcon from "@material-ui/icons/Add";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
 const section1 = [
   { text: "Dashboard", icon: <DashboardIcon />, link: "/" },
   { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
-  { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
-  { text: "Send email", icon: <PersonAddIcon />, link: "#" },
 ];
 const section2 = [{ text: "Logout", icon: <AccountBoxIcon /> }];
 
@@ -88,10 +85,7 @@ function ResponsiveDrawer(props) {
 
   const history = useHistory();
 
-  const dispatch = useDispatch();
-
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT_USER", payload: null });
     localStorage.removeItem("user");
     history.push("/signin");
   };
@@ -104,7 +98,7 @@ function ResponsiveDrawer(props) {
     <div>
       <Link to="/" className={classes.titleLink}>
         <Typography variant="h4" align="center" className={classes.title}>
-          Amiba
+          Ameeba
         </Typography>
       </Link>
       <Divider />

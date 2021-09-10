@@ -9,10 +9,17 @@ export const getProjects = (userId, token) => {
   );
 };
 
-export const addProject = (project, userId, token) => {
+export const addProject = (data, token) => {
   return axios.post(
     `${process.env.REACT_APP_API}/project/add`,
-    { ...project, userId },
+    data,
+    header(token)
+  );
+};
+
+export const getProjectDetails = (projectid, token) => {
+  return axios.get(
+    `${process.env.REACT_APP_API}/project/${projectid}`,
     header(token)
   );
 };

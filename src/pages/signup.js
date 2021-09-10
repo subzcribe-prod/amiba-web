@@ -19,7 +19,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../helper functions/validators";
-import { signup } from "../redux/actions/auth";
+import { signup } from "../axios/auth";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 // import { validateSignup } from "../helper functions/validators";

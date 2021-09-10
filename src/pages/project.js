@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { CssBaseline, Typography, Container } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { CssBaseline, Typography, Container, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ControlledAccordion from "../components/Project/ControlledAccordion";
-import { useSelector } from "react-redux";
+import EndpointContainer from "../components/Project/EndpointContainer";
 import Error404 from "../components/error404";
-import { useDispatch } from "react-redux";
-import { loadProjects } from "../redux/dispatch/projects";
 import { findProject } from "../helper functions/utils";
-import { loadApis } from "../redux/dispatch/apis";
+import { getProjectDetails } from "../axios/projects";
+import AddEndpoint from "../components/Project/AddEndpoint";
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -23,48 +21,65 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Project() {
-  const { projectslug } = useParams();
-  const user = useSelector((state) => state.user);
-  const projects = useSelector((state) => state.projects);
-  const apis = useSelector((state) => state.apis);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  const dispatch = useDispatch();
+  const history = useHistory();
+
+  async function load() {
+    const user = JSON.parse(localStorage.user);
+    try {
+      const res = await getProjectDetails(user.projectId, user.token);
+      const projectFromDb = res.data.data;
+      setProject(projectFromDb);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response);
+      setLoading(false);
+      setError(true);
+    }
+  }
 
   useEffect(() => {
-    if (projects === null || projects.length === 0) {
-      loadProjects(user, dispatch);
-    }
+    load();
   }, []);
-
-  const project = findProject(projects, projectslug);
-
-  useEffect(() => {
-    if (
-      project !== null &&
-      (apis === null || apis.length === 0 || apis[project._id] === null)
-    ) {
-      loadApis(user.token, project._id, dispatch);
-    }
-  });
 
   const classes = useStyles();
 
-  if (!project) return <Error404 />;
+  if (loading) return <h1>Loading..</h1>;
 
-  return (
-    <Container component="main" className={classes.container}>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography variant="h5">PROJECT DETAILS</Typography>
-        <Typography variant="h6" className={classes.projectname}>
-          project name: {project.name}
-        </Typography>
-        <Typography variant="h6">{project.description}</Typography>
-        <Typography variant="h6">API details</Typography>
-        {apis && apis[project._id] !== null && (
-          <ControlledAccordion apis={apis[project._id]} project={project} />
-        )}
-      </div>
-    </Container>
-  );
+  if (error) return <h1>Error occured</h1>;
+
+  if (project)
+    return (
+      <Container component="main" className={classes.container}>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography variant="h5">PROJECT DETAILS</Typography>
+          <Typography variant="h6" className={classes.projectname}>
+            project name: {project.name}
+          </Typography>
+          <Typography variant="h6">{project.description}</Typography>
+          <Typography variant="h6">API details</Typography>
+
+          {project.endpoints.length === 0 && (
+            <Typography>Create endpoints to be viewed here.</Typography>
+          )}
+          <EndpointContainer endpoints={project.endpoints} />
+
+          <Button
+            onClick={() =>
+              history.push(`${window.location.pathname}/endpoint/add`)
+            }
+            variant="contained"
+            color="primary"
+          >
+            Add endpoint
+          </Button>
+        </div>
+      </Container>
+    );
+
+  return null;
 }
