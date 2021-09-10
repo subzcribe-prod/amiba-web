@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   title: {
@@ -29,7 +29,6 @@ export default function SimpleCard(props) {
     let user = JSON.parse(localStorage.user);
     user.endpointId = props._id;
     localStorage.setItem("user", JSON.stringify(user));
-    // console.log(`${window.location.pathname}${slug}/view`);
     history.push(`${window.location.pathname}${slug}/view`);
   };
 
@@ -44,6 +43,9 @@ export default function SimpleCard(props) {
         </Typography>
         <Typography variant="body2" component="p">
           Slug: {slug}
+        </Typography>
+        <Typography variant="body2" component="p">
+          Number of versions: {versions.length}
         </Typography>
       </CardContent>
       <CardActions>

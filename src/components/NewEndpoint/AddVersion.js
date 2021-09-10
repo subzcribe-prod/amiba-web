@@ -60,9 +60,13 @@ export default function AddVersion({ requestType, endpointDetails }) {
         version,
       };
       const res = await addEndpoint(data, user.token);
-      const url = window.location.pathname.split("/").splice(0, 3).join("/");
-      history.push(`${url}`);
-    } catch (error) {}
+      if (res.status === 200) {
+        const url = window.location.pathname.split("/").splice(0, 3).join("/");
+        history.push(`${url}`);
+      }
+    } catch (error) {
+      console.error(error.response);
+    }
   };
 
   return (

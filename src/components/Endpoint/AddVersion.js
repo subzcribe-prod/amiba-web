@@ -8,8 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
-import { useHistory } from "react-router-dom";
-import { addEndpoint, addVersion } from "../../axios/endpoints";
+import { addVersion } from "../../axios/endpoints";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -34,15 +33,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddVersion({ requestType, endpointDetails }) {
+export default function AddVersion({ requestType }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [statuscode, setStatuscode] = useState(200);
   const [responseJson, setResponseJson] = useState(``);
   const [requestJson, setRequestJson] = useState(null);
-
-  const history = useHistory();
 
   const handleClick = async () => {
     try {
@@ -55,6 +52,9 @@ export default function AddVersion({ requestType, endpointDetails }) {
       };
       if (requestType === "POST") data.request = requestJson;
       const res = await addVersion(data, user.token);
+      if (res.status === 200) {
+        window.location.reload();
+      }
     } catch (error) {
       console.error(error.response);
     }

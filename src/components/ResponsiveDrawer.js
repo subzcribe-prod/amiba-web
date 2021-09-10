@@ -15,7 +15,6 @@ import {
   ListItem,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AddIcon from "@material-ui/icons/Add";
 import DashboardIcon from "@material-ui/icons/Dashboard";

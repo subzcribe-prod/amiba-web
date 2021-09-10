@@ -67,7 +67,11 @@ export default function Endpoint() {
           <Typography variant="h6">Version details</Typography>
           <VersionContainer versions={endpoint.versions} />
           {showAddVersion && <AddVersion />}
-          <Button onClick={() => setShowAddVersion(!showAddVersion)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setShowAddVersion(!showAddVersion)}
+          >
             {showAddVersion ? "Hide" : "Add Version"}
           </Button>
         </div>

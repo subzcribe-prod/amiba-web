@@ -1,7 +1,5 @@
-import { TextField, Button, Box, Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { addEndpoint } from "../axios/endpoints";
 import SimpleSelect from "../components/NewEndpoint/SimpleSelect";
 import AddVersion from "../components/NewEndpoint/AddVersion";
 
@@ -12,7 +10,7 @@ export default function NewAPI({ versions }) {
 
   const handleName = (e) => {
     setApiName(e.target.value);
-    setSlug(e.target.value.toLowerCase().split(" ").join("-"));
+    setSlug("/".concat(e.target.value.toLowerCase().split(" ").join("-")));
   };
 
   return (

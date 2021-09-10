@@ -3,10 +3,7 @@ import { useHistory } from "react-router-dom";
 import { CssBaseline, Typography, Container, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EndpointContainer from "../components/Project/EndpointContainer";
-import Error404 from "../components/error404";
-import { findProject } from "../helper functions/utils";
 import { getProjectDetails } from "../axios/projects";
-import AddEndpoint from "../components/Project/AddEndpoint";
 
 const useStyles = makeStyles((theme) => ({
   container: {},
