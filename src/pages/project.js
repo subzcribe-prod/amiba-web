@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { CssBaseline, Typography, Container, Button } from "@material-ui/core";
+import {
+  CssBaseline,
+  Typography,
+  Container,
+  Button,
+  Box,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EndpointContainer from "../components/Project/EndpointContainer";
 import { getProjectDetails } from "../axios/projects";
@@ -14,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   projectname: {
     textTransform: "capitalize",
     width: 300,
+  },
+  btncontainer: {
+    textAlign: "center",
   },
 }));
 
@@ -65,15 +74,17 @@ export default function Project() {
           )}
           <EndpointContainer endpoints={project.endpoints} />
 
-          <Button
-            onClick={() =>
-              history.push(`${window.location.pathname}/endpoint/add`)
-            }
-            variant="contained"
-            color="primary"
-          >
-            Add endpoint
-          </Button>
+          <Box className={classes.btncontainer}>
+            <Button
+              onClick={() =>
+                history.push(`${window.location.pathname}/endpoint/add`)
+              }
+              variant="contained"
+              color="primary"
+            >
+              Add endpoint
+            </Button>
+          </Box>
         </div>
       </Container>
     );

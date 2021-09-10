@@ -10,6 +10,10 @@ import {
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
+  root: {
+    height: "100%",
+    padding: 16,
+  },
   title: {
     fontSize: 14,
   },
@@ -17,6 +21,15 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
   link: { textDecoration: "none" },
+  removepadding: {
+    padding: 0,
+  },
+  name: {
+    marginBottom: 5,
+  },
+  description: {
+    marginBottom: 3,
+  },
 });
 
 export default function SimpleCard(props) {
@@ -31,15 +44,19 @@ export default function SimpleCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Typography variant="h5" component="h2">
+      <CardContent className={classes.removepadding}>
+        <Typography variant="h5" component="h2" className={classes.name}>
           {name}
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography
+          variant="body2"
+          component="p"
+          className={classes.description}
+        >
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.removepadding}>
         <Link to={`/projects/${slug}`} className={classes.link}>
           <Button
             size="small"

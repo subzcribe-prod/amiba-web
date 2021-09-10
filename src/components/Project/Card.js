@@ -10,13 +10,28 @@ import {
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
+  root: {
+    height: "100%",
+    padding: 16,
+  },
   title: {
     fontSize: 14,
   },
   pos: {
     marginBottom: 12,
   },
-  link: { textDecoration: "none" },
+  removepadding: {
+    padding: 0,
+  },
+  name: {
+    marginBottom: 5,
+  },
+  description: {
+    marginBottom: 3,
+  },
+  cardcontent: {
+    marginBottom: 8,
+  },
 });
 
 export default function SimpleCard(props) {
@@ -34,7 +49,9 @@ export default function SimpleCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
+      <CardContent
+        className={`${classes.removepadding} ${classes.cardcontent}`}
+      >
         <Typography variant="h5" component="h2">
           {name}
         </Typography>
@@ -48,7 +65,7 @@ export default function SimpleCard(props) {
           Number of versions: {versions.length}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.removepadding}>
         <Button
           size="small"
           color="primary"
