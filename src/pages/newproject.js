@@ -9,6 +9,10 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { addProject } from "../axios/projects";
+import {
+  getAuthenticatedUser,
+  updateAuthenticatedUser,
+} from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,7 +57,7 @@ export default function NewProject() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let user = JSON.parse(localStorage.user);
+    let user = getAuthenticatedUser();
     try {
       const res = await addProject(
         {
@@ -66,8 +70,7 @@ export default function NewProject() {
       );
       if (res.status === 200) {
         const projectInDb = res.data.data;
-        user.projectId = projectInDb._id;
-        localStorage.user = JSON.stringify(user);
+        updateAuthenticatedUser("projectId", projectInDb._id);
         history.push(`/projects/${slug}`);
       }
     } catch (error) {

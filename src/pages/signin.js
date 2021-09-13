@@ -20,6 +20,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../helper functions/validators";
+import { handleLogout } from "../helper functions/auth";
 const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +78,7 @@ export default function SignIn({ history }) {
         user.token = res.data.token;
         user.userId = res.data.userId;
         const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
-        localStorage.setItem("user", JSON.stringify(saveUser));
+        handleLogout(saveUser);
         history.push("/");
       }
     } catch (error) {

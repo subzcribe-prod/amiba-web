@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { updateAuthenticatedUser } from "../../helper functions/auth";
 
 const useStyles = makeStyles({
   root: {
@@ -37,9 +38,7 @@ export default function SimpleCard(props) {
   const { name, description, slug } = props;
 
   const handleClick = () => {
-    let user = JSON.parse(localStorage.user);
-    user.projectId = props._id;
-    localStorage.setItem("user", JSON.stringify(user));
+    updateAuthenticatedUser("projectId", props._id);
   };
 
   return (

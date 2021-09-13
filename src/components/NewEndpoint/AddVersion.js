@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
 import { useHistory } from "react-router-dom";
 import { addEndpoint } from "../../axios/endpoints";
+import { getAuthenticatedUser } from "../../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -46,10 +47,9 @@ export default function AddVersion({ requestType, endpointDetails }) {
 
   const handleClick = async () => {
     try {
-      let user = JSON.parse(localStorage.user);
+      let user = getAuthenticatedUser();
       let version = {
         name: name,
-        statusCode: statuscode,
         response: responseJson,
       };
       if (requestType === "POST") version.request = requestJson;
@@ -58,6 +58,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
         projectId: user.projectId,
         ...endpointDetails,
         version,
+        responseCode: statuscode,
       };
       const res = await addEndpoint(data, user.token);
       if (res.status === 200) {

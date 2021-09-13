@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import EndpointContainer from "../components/Project/EndpointContainer";
 import { getProjectDetails } from "../axios/projects";
+import { getAuthenticatedUser } from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -34,7 +35,7 @@ export default function Project() {
   const history = useHistory();
 
   async function load() {
-    const user = JSON.parse(localStorage.user);
+    const user = getAuthenticatedUser();
     try {
       const res = await getProjectDetails(user.projectId, user.token);
       const projectFromDb = res.data.data;

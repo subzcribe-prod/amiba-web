@@ -20,6 +20,7 @@ import AddIcon from "@material-ui/icons/Add";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
+import { handleLogout } from "../helper functions/auth";
 
 const drawerWidth = 240;
 
@@ -84,11 +85,6 @@ function ResponsiveDrawer(props) {
 
   const history = useHistory();
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    history.push("/signin");
-  };
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -114,7 +110,11 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         {section2.map(({ text, icon }, index) => (
-          <div className={classes.link} onClick={handleLogout} key={text}>
+          <div
+            className={classes.link}
+            onClick={() => handleLogout(history)}
+            key={text}
+          >
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />

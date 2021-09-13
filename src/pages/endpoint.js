@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getEndpointDetails } from "../axios/endpoints";
 import VersionContainer from "../components/Endpoint/VersionContainer";
 import AddVersion from "../components/Endpoint/AddVersion";
+import { getAuthenticatedUser } from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -25,7 +26,7 @@ export default function Endpoint() {
   const [showAddVersion, setShowAddVersion] = useState(false);
 
   async function load() {
-    const user = JSON.parse(localStorage.user);
+    const user = getAuthenticatedUser();
     try {
       const res = await getEndpointDetails(user.endpointId, user.token);
       const endpointFromDb = res.data.data;

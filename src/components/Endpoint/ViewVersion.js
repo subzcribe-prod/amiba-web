@@ -19,12 +19,14 @@ export default function ViewVersion(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h5" component="h2">
-          Version : {name}
-        </Typography>
+        {name && (
+          <Typography variant="h5" component="h2">
+            Version : {name}
+          </Typography>
+        )}
         {request && <Typography>Request : {request}</Typography>}
-        <Typography>Response Code: {responseCode}</Typography>
-        <Typography>Response: {response}</Typography>
+        {responseCode && <Typography>Response Code: {responseCode}</Typography>}
+        {response && <Typography>Response: {response}</Typography>}
       </CardContent>
     </Card>
   );

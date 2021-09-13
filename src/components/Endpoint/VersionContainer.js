@@ -26,7 +26,7 @@ export default function VersionContainer({ versions }) {
   return (
     <div className={classes.root}>
       {versions.map((item, index) => {
-        if (item && item.name) {
+        if (item) {
           return (
             <ViewVersion {...item} key={`version-${item.name}-${index + 1}`} />
           );

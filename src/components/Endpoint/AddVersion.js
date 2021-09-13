@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
 import { addVersion } from "../../axios/endpoints";
+import { getAuthenticatedUser } from "../../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -43,10 +44,10 @@ export default function AddVersion({ requestType }) {
 
   const handleClick = async () => {
     try {
-      let user = JSON.parse(localStorage.user);
+      let user = getAuthenticatedUser();
       let data = {
         name: name,
-        statusCode: statuscode,
+        responseCode: statuscode,
         response: responseJson,
         endpointId: user.endpointId,
       };
