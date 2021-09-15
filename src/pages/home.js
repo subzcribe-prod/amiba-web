@@ -26,11 +26,12 @@ export default function Home() {
     const user = getAuthenticatedUser();
     try {
       const res = await getProjects(user.userId, user.token);
+      console.log(res);
       const projectsFromDb = res.data.data.projects;
       setProjects(projectsFromDb);
       setLoading(false);
     } catch (error) {
-      console.log(error.response);
+      console.log("err", error.response);
       setLoading(false);
     }
   }

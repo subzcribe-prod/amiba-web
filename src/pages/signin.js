@@ -20,7 +20,7 @@ import {
   validatePassword,
   validateUsername,
 } from "../helper functions/validators";
-import { handleLogout } from "../helper functions/auth";
+import { handleLogin } from "../helper functions/auth";
 const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
@@ -52,9 +52,9 @@ function Alert(props) {
 
 export default function SignIn({ history }) {
   const classes = useStyles();
-  const [email, setEmail] = useState("sanket@email.in");
-  const [username, setUsername] = useState("sanket");
-  const [password, setPassword] = useState("sanket");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [snack, setSnack] = useState(null);
 
   const handleClose = (event, reason) => {
@@ -78,7 +78,7 @@ export default function SignIn({ history }) {
         user.token = res.data.token;
         user.userId = res.data.userId;
         const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
-        handleLogout(saveUser);
+        handleLogin(saveUser);
         history.push("/");
       }
     } catch (error) {
@@ -122,6 +122,7 @@ export default function SignIn({ history }) {
                 value={password}
                 setValue={setPassword}
                 validator={validatePassword}
+                type="password"
               />
             </Grid>
           </Grid>

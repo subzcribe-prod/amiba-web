@@ -22,7 +22,9 @@ import {
 import { signup } from "../axios/auth";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import { handleLogin } from "../helper functions/auth";
 // import { validateSignup } from "../helper functions/validators";
+const _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,14 +55,12 @@ function Alert(props) {
 
 export default function SignUp({ history }) {
   const classes = useStyles();
-  const [firstname, setFirstname] = useState("Sanket");
-  const [lastname, setLastname] = useState("Chauhan");
-  const [email, setEmail] = useState("sanket@email.com");
-  const [username, setUsername] = useState("sanketchauhan");
-  const [password, setPassword] = useState("sanket");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [snack, setSnack] = useState(null);
-  // const [confirmpassword, setConfirmpassword] = useState("");
-  // const [errors, setErrors] = useState(null);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -71,20 +71,22 @@ export default function SignUp({ history }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+    let user = {
       email,
       userName: username,
       password,
     };
     try {
-      const res = await signup(data);
+      const res = await signup(user);
       if (res.status === 200) {
         setSnack({ type: "success", msg: res.data.msg });
-        // console.log(res);
-        history.push("/signin");
+        user.token = res.data.token;
+        user.userId = res.data.userId;
+        const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
+        handleLogin(saveUser);
+        history.push("/");
       }
     } catch (error) {
-      console.log("Error", error);
       if (error.response) {
         console.log(error.response.data);
         setSnack({ type: "error", msg: error.response.data.msg });
@@ -140,6 +142,7 @@ export default function SignUp({ history }) {
                 value={password}
                 setValue={setPassword}
                 validator={validatePassword}
+                type="password"
               />
             </Grid>
             {/* <Grid item xs={12}>
