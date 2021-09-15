@@ -78,10 +78,11 @@ export default function SignUp({ history }) {
     };
     try {
       const res = await signup(user);
+      console.log(res);
       if (res.status === 200) {
         setSnack({ type: "success", msg: res.data.msg });
         user.token = res.data.token;
-        user.userId = res.data.userId;
+        user.userId = res.data.data.id;
         const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
         handleLogin(saveUser);
         history.push("/");

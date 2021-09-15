@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { CssBaseline, Typography, Container, Button } from "@material-ui/core";
+import {
+  CssBaseline,
+  Typography,
+  Container,
+  Button,
+  Box,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { getEndpointDetails } from "../axios/endpoints";
 import VersionContainer from "../components/Endpoint/VersionContainer";
@@ -66,15 +72,20 @@ export default function Endpoint() {
           </Typography>
           <Typography variant="h6">{endpoint.description}</Typography>
           <Typography variant="h6">Version details</Typography>
-          <VersionContainer versions={endpoint.versions} />
+          <VersionContainer
+            activeVersion={endpoint.activeVersion}
+            versions={endpoint.versions}
+          />
           {showAddVersion && <AddVersion />}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setShowAddVersion(!showAddVersion)}
-          >
-            {showAddVersion ? "Hide" : "Add Version"}
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setShowAddVersion(!showAddVersion)}
+            >
+              {showAddVersion ? "Hide" : "Add Version"}
+            </Button>
+          </Box>
         </div>
       </Container>
     );
