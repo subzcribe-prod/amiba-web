@@ -31,3 +31,11 @@ export const addVersion = (data, token) => {
     header(token)
   );
 };
+
+export const updateActiveVersion = (data, token) => {
+  return axios.put(
+    `${process.env.REACT_APP_API}/endpoint/update`,
+    data,
+    header(token)
+  );
+};

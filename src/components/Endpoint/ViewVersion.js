@@ -32,7 +32,6 @@ export default function ViewVersion(props) {
     isActive,
     setCheckedList,
   } = props;
-  console.log("view version", props);
 
   return (
     <Card className={classes.root}>
