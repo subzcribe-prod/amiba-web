@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 import Card from "../components/Home/Card";
 import CardAdd from "../components/Home/CardAdd";
 import { getProjects } from "../axios/projects";
-import { getAuthenticatedUser } from "../helper functions/auth";
+import { getAuthenticatedUser, handleLogout } from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Home({ history }) {
   const classes = useStyles();
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,6 @@ export default function Home() {
     const user = getAuthenticatedUser();
     try {
       const res = await getProjects(user.userId, user.token);
-      console.log(res);
       const projectsFromDb = res.data.data.projects;
       setProjects(projectsFromDb);
       setLoading(false);

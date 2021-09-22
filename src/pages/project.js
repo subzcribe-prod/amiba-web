@@ -68,6 +68,7 @@ export default function Project() {
             project name: {project.name}
           </Typography>
           <Typography variant="h6">{project.description}</Typography>
+          <Typography variant="h6">Project token: {project.token}</Typography>
           <Typography variant="h6">API details</Typography>
 
           {project.endpoints.length === 0 && (
