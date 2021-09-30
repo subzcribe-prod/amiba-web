@@ -18,7 +18,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import {
   validateEmail,
   validatePassword,
-  validateUsername,
+  // validateUsername,
 } from "../helper functions/validators";
 import { handleLogin } from "../helper functions/auth";
 const _ = require("lodash");
@@ -53,7 +53,7 @@ function Alert(props) {
 export default function SignIn({ history }) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [snack, setSnack] = useState(null);
 
@@ -68,7 +68,7 @@ export default function SignIn({ history }) {
     e.preventDefault();
     let user = {
       email,
-      userName: username,
+      // userName: username,
       password,
     };
     try {
@@ -77,7 +77,12 @@ export default function SignIn({ history }) {
         setSnack({ type: "success", msg: res.data.msg });
         user.token = res.data.token;
         user.userId = res.data.userId;
-        const saveUser = _.pick(user, ["userName", "email", "token", "userId"]);
+        const saveUser = _.pick(user, [
+          // "userName",
+          "email",
+          "token",
+          "userId",
+        ]);
         handleLogin(saveUser);
         history.push("/");
       }
@@ -108,14 +113,14 @@ export default function SignIn({ history }) {
                 validator={validateEmail}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextInput
                 label="Username"
                 value={username}
                 setValue={setUsername}
                 validator={validateUsername}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextInput
                 label="Password"

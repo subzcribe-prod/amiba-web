@@ -25,7 +25,7 @@ export default function VersionContainer({ versions, activeVersion }) {
       return { ...prev, [curr._id]: curr._id === activeVersion };
     }, {})
   );
-  console.log("version container", checkedList);
+  // console.log("version container", checkedList);
 
   if (!versions) return <Error404 />;
 

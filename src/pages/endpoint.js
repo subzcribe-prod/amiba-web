@@ -11,6 +11,7 @@ import { getEndpointDetails } from "../axios/endpoints";
 import VersionContainer from "../components/Endpoint/VersionContainer";
 import AddVersion from "../components/Endpoint/AddVersion";
 import { getAuthenticatedUser } from "../helper functions/auth";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -20,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   endpointname: {
     textTransform: "capitalize",
-    width: 300,
+  },
+  link: {
+    textTransform: "lowercase",
+    textDecoration: "underline",
   },
 }));
 
@@ -35,7 +39,8 @@ export default function Endpoint() {
     const user = getAuthenticatedUser();
     try {
       const res = await getEndpointDetails(user.endpointId, user.token);
-      const endpointFromDb = res.data.data;
+      let endpointFromDb = res.data.data;
+      endpointFromDb.url = res.data.url;
       setEndpoint(endpointFromDb);
       setLoading(false);
     } catch (error) {
@@ -68,7 +73,13 @@ export default function Endpoint() {
             request type: {endpoint.requestType}
           </Typography>
           <Typography variant="h6" className={classes.endpointname}>
-            slug : {endpoint.slug}
+            slug : {`${endpoint.slug}`}
+          </Typography>
+          <Typography variant="h6" className={classes.endpointname}>
+            url :{" "}
+            <span className={classes.link}>
+              {`${process.env.REACT_APP_GENERATED_API}/${endpoint.url}`}
+            </span>
           </Typography>
           <Typography variant="h6">{endpoint.description}</Typography>
           <Typography variant="h6">Version details</Typography>

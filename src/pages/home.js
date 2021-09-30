@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 import Card from "../components/Home/Card";
 import CardAdd from "../components/Home/CardAdd";
 import { getProjects } from "../axios/projects";
-import { getAuthenticatedUser, handleLogout } from "../helper functions/auth";
+import { getAuthenticatedUser } from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {

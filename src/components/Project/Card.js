@@ -43,7 +43,7 @@ export default function SimpleCard(props) {
 
   const handleClick = () => {
     updateAuthenticatedUser("endpointId", props._id);
-    history.push(`${window.location.pathname}${slug}/view`);
+    history.push(`${window.location.pathname}/${slug}/view`);
   };
 
   return (

@@ -10,7 +10,7 @@ export default function NewAPI({ versions }) {
 
   const handleName = (e) => {
     setApiName(e.target.value);
-    setSlug("/".concat(e.target.value.toLowerCase().split(" ").join("-")));
+    setSlug(e.target.value.toLowerCase().split(" ").join("-"));
   };
 
   return (

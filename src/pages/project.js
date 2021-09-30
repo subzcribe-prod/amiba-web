@@ -38,7 +38,7 @@ export default function Project() {
     const user = getAuthenticatedUser();
     try {
       const res = await getProjectDetails(user.projectId, user.token);
-      const projectFromDb = res.data.data;
+      let projectFromDb = res.data.data;
       setProject(projectFromDb);
       setLoading(false);
     } catch (error) {
