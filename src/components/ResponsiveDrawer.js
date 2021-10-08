@@ -17,6 +17,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AddIcon from "@material-ui/icons/Add";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
@@ -89,6 +90,10 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   const drawer = (
     <div>
       <Link to="/" className={classes.titleLink}>
@@ -133,6 +138,9 @@ function ResponsiveDrawer(props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
+          <IconButton>
+            <ArrowBackIcon onClick={handleBack} />
+          </IconButton>
           <IconButton
             color="inherit"
             aria-label="open drawer"

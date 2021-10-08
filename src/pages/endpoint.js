@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { getEndpointDetails } from "../axios/endpoints";
 import VersionContainer from "../components/Endpoint/VersionContainer";
-import AddVersion from "../components/Endpoint/AddVersion";
+import AddVersion from "../components/NewEndpoint/AddVersion";
 import { getAuthenticatedUser } from "../helper functions/auth";
 require("dotenv").config();
 
@@ -87,14 +87,14 @@ export default function Endpoint() {
             activeVersion={endpoint.activeVersion}
             versions={endpoint.versions}
           />
-          {showAddVersion && <AddVersion />}
+          {showAddVersion && <AddVersion requestType={endpoint.requestType} />}
           <Box>
             <Button
               variant="contained"
               color="primary"
               onClick={() => setShowAddVersion(!showAddVersion)}
             >
-              {showAddVersion ? "Hide" : "Add Version"}
+              {showAddVersion ? "Cancel" : "Add Version"}
             </Button>
           </Box>
         </div>

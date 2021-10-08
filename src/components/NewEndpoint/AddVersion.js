@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
 import { useHistory } from "react-router-dom";
-import { addEndpoint } from "../../axios/endpoints";
+import { addEndpoint, addVersion } from "../../axios/endpoints";
 import { getAuthenticatedUser } from "../../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 14,
   },
-  pos: {
-    marginBottom: 12,
+  addMb: {
+    margin: 0,
+    marginBottom: theme.spacing(2),
   },
   card: {
     margin: "1em 0",
@@ -47,23 +48,42 @@ export default function AddVersion({ requestType, endpointDetails }) {
 
   const handleClick = async () => {
     try {
-      let user = getAuthenticatedUser();
-      let version = {
-        name: name,
-        response: responseJson,
-      };
-      if (requestType === "POST") version.request = requestJson;
+      if (endpointDetails) {
+        let user = getAuthenticatedUser();
+        let version = {
+          name: name,
+          response: responseJson,
+          responseCode: statuscode,
+        };
+        if (requestType === "POST") version.request = requestJson;
 
-      const data = {
-        projectId: user.projectId,
-        ...endpointDetails,
-        version,
-        responseCode: statuscode,
-      };
-      const res = await addEndpoint(data, user.token);
-      if (res.status === 200) {
-        const url = window.location.pathname.split("/").splice(0, 3).join("/");
-        history.push(`${url}`);
+        const data = {
+          projectId: user.projectId,
+          ...endpointDetails,
+          version,
+        };
+        const res = await addEndpoint(data, user.token);
+        if (res.status === 200) {
+          const url = window.location.pathname
+            .split("/")
+            .splice(0, 3)
+            .join("/");
+          history.push(`${url}`);
+          // console.log("response from add version, new endpoint: ", res);
+        }
+      } else {
+        let user = getAuthenticatedUser();
+        let data = {
+          name: name,
+          responseCode: statuscode,
+          response: responseJson,
+          endpointId: user.endpointId,
+        };
+        if (requestType === "POST") data.request = requestJson;
+        const res = await addVersion(data, user.token);
+        if (res.status === 200) {
+          window.location.reload();
+        }
       }
     } catch (error) {
       console.error(error.response);
@@ -76,7 +96,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
       <Card className={classes.card}>
         <CardContent>
           <TextField
-            className={classes.versionname}
+            className={`${classes.versionname} ${classes.addMb}`}
             variant="standard"
             placeholder="Version Name *"
             required
@@ -93,6 +113,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
               required
               value={requestJson}
               onChange={(e) => setRequestJson(e.target.value)}
+              className={classes.addMb}
             />
           )}
           <div>
@@ -115,6 +136,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
               required
               value={responseJson}
               onChange={(e) => setResponseJson(e.target.value)}
+              className={classes.addMb}
             />
           </div>
           <div>
