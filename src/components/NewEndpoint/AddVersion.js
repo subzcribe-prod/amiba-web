@@ -47,7 +47,16 @@ export default function AddVersion({ requestType, endpointDetails }) {
   const history = useHistory();
 
   const handleClick = async () => {
+    // stringify the response json before sending
+    setResponseJson((res) => JSON.stringify(res));
+    // stringify the request json before sending(if requestType is POST)
+    if (requestType === "POST") {
+      setRequestJson((req) => JSON.stringify(req));
+    }
+    console.log("response json: ", responseJson);
+    console.log("parsed json: ", JSON.parse(responseJson));
     try {
+      // add a new version to existing endpoint
       if (endpointDetails) {
         let user = getAuthenticatedUser();
         let version = {
@@ -56,7 +65,6 @@ export default function AddVersion({ requestType, endpointDetails }) {
           responseCode: statuscode,
         };
         if (requestType === "POST") version.request = requestJson;
-
         const data = {
           projectId: user.projectId,
           ...endpointDetails,
@@ -71,7 +79,9 @@ export default function AddVersion({ requestType, endpointDetails }) {
           history.push(`${url}`);
           // console.log("response from add version, new endpoint: ", res);
         }
-      } else {
+      }
+      // add first version while creating a new endpoint
+      else {
         let user = getAuthenticatedUser();
         let data = {
           name: name,

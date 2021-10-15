@@ -23,7 +23,7 @@ export default function Demo({ history }) {
   async function load() {
     try {
       const res = await getApiResponse();
-      setResponse(res.data);
+      setResponse(JSON.parse(res.data));
       setLoading(false);
     } catch (error) {
       console.log("err", error.response);

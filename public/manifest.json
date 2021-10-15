@@ -1,5 +1,5 @@
 {
-  "short_name": "Amiba",
+  "short_name": "Ameeba",
   "name": "Cloud based platform",
   "icons": [
     {
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "amiba.jpg",
+      "src": "ameeba.jpg",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "amiba.jpg",
+      "src": "ameeba.jpg",
       "type": "image/png",
       "sizes": "512x512"
     }

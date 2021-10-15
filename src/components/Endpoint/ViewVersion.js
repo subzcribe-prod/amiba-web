@@ -23,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ViewVersion(props) {
   const classes = useStyles();
-  // console.log("props from version card: ", props);
-  const {
+  let {
     name,
     responseCode,
     response,

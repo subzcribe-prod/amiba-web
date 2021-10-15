@@ -10,10 +10,12 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import Pagination from "@mui/material/Pagination";
+import { getAuthenticatedUser } from "../../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   thead: {
     fontWeight: "bold",
+    textTransform: "capitalize",
   },
 }));
 
@@ -22,47 +24,33 @@ export default function CustomTable({ rows }) {
 
   const [pageNumber, setPageNumber] = useState(1);
   const numberOfItemsForPage = 5;
-  const numberOfPages = rows.length / numberOfItemsForPage;
+  const numberOfPages = Math.ceil(rows.length / numberOfItemsForPage);
   const reducedRow = rows.slice(
     (pageNumber - 1) * numberOfItemsForPage,
     pageNumber * numberOfItemsForPage
   );
   const titles = Object.keys(rows[0]);
-  console.log(titles);
   return (
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className={classes.thead}>Name</TableCell>
-              <TableCell className={classes.thead} align="center">
-                Email
-              </TableCell>
-              <TableCell className={classes.thead} align="center">
-                Phone
-              </TableCell>
-              <TableCell className={classes.thead} align="center">
-                Username
-              </TableCell>
-              <TableCell className={classes.thead} align="right">
-                Website
-              </TableCell>
+              <TableCell className={classes.thead}>{titles[0]}</TableCell>
+              {titles.slice(1, titles.length).map((t) => (
+                <TableCell className={classes.thead}>{t}</TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {reducedRow.map((row) => (
+            {reducedRow.map((row, index) => (
               <TableRow
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="center">{row.email}</TableCell>
-                <TableCell align="center">{row.phone}</TableCell>
-                <TableCell align="center">{row.username}</TableCell>
-                <TableCell align="right">{row.website}</TableCell>
+                {titles.map((t) => (
+                  <TableCell>{row[t]}</TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
