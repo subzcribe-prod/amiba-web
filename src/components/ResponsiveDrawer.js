@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "inherit",
     color: "inherit",
   },
+  backicon: {
+    color: "white",
+  },
 }));
 
 function ResponsiveDrawer(props) {
@@ -138,8 +141,8 @@ function ResponsiveDrawer(props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton>
-            <ArrowBackIcon onClick={handleBack} />
+          <IconButton onClick={handleBack}>
+            <ArrowBackIcon className={classes.backicon} />
           </IconButton>
           <IconButton
             color="inherit"

@@ -9,6 +9,8 @@ import NewProject from "./pages/newproject";
 import Project from "./pages/project";
 import Endpoint from "./pages/endpoint";
 import NewEndpoint from "./pages/newendpoint";
+import Demo from "./pages/demo";
+
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 function Routes() {
@@ -34,6 +36,7 @@ function Routes() {
             path="/projects/:project/:endpoint/view"
             component={Endpoint}
           />
+          <ProtectedRoute exact path="/demo" component={Demo} />
           <ProtectedRoute exact path="/" component={Home} />
         </ResponsiveDrawer>
       </Switch>
