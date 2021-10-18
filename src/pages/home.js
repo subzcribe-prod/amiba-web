@@ -26,11 +26,13 @@ export default function Home({ history }) {
     const user = getAuthenticatedUser();
     try {
       const res = await getProjects(user.userId, user.token);
-      const projectsFromDb = res.data.data.projects;
+      console.log(res);
+      const projectsFromDb =
+        res.data && res.data.data && res.data.data.projects;
       setProjects(projectsFromDb);
       setLoading(false);
     } catch (error) {
-      console.log("err", error.response);
+      console.log("err", error);
       setLoading(false);
     }
   }

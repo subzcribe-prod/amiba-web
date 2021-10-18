@@ -36,6 +36,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const checkJson = (json) => {
+  // const stringified = JSON.stringify(json);
+  try {
+    const parsed = JSON.parse(json);
+    if (typeof parsed === "object") {
+      const stringified = JSON.stringify(json);
+      return {
+        parsed,
+        stringified,
+        valid: true,
+      };
+    }
+  } catch (error) {}
+  return { valid: false, stringified: null, parsed: null };
+};
+
 export default function AddVersion({ requestType, endpointDetails }) {
   const classes = useStyles();
 
@@ -47,24 +63,27 @@ export default function AddVersion({ requestType, endpointDetails }) {
   const history = useHistory();
 
   const handleClick = async () => {
-    // stringify the response json before sending
-    setResponseJson((res) => JSON.stringify(res));
-    // stringify the request json before sending(if requestType is POST)
+    // check if the json entered is valid or not
+    const { valid: resValid, stringified: resStringified } =
+      checkJson(responseJson);
+    if (!resValid) return alert("please enter a valid response json");
+    // if json is valid store stringified json in state
+    // same:check json and stoe in state
     if (requestType === "POST") {
-      setRequestJson((req) => JSON.stringify(req));
+      const { valid: reqValid, stringified: reqStringified } =
+        checkJson(requestJson);
+      if (!reqValid) return alert("please enter a valid request json");
     }
-    console.log("response json: ", responseJson);
-    console.log("parsed json: ", JSON.parse(responseJson));
     try {
       // add a new version to existing endpoint
       if (endpointDetails) {
         let user = getAuthenticatedUser();
         let version = {
           name: name,
-          response: responseJson,
+          response: resStringified,
           responseCode: statuscode,
         };
-        if (requestType === "POST") version.request = requestJson;
+        if (requestType === "POST") version.request = reqStringified;
         const data = {
           projectId: user.projectId,
           ...endpointDetails,
