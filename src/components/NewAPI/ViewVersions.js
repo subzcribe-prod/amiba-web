@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AccordionItem from "./AccordionItem";
 import Error404 from "../error404";
-import { useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getAllVersions } from "../../redux/actions/versions";
+import { useHistory } from "react-router-dom";
+import { selectedProject } from "../../helper functions/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +25,28 @@ const useStyles = makeStyles((theme) => ({
 export default function ViewVersions() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const versions = useSelector((state) => state.versions);
+  // const versions = useSelector((state) => state.versions);
+  const [versions, setVersions] = useState(null);
+  const [projects, setProjects] = useState(null);
+
+  // const dispatch = useDispatch();
+  const history = useHistory();
+
+  // const projects = useSelector((state) => state.projects);
+  // const user = useSelector((state) => state.user);
+
+  const project = selectedProject(history, projects);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     if (project && project.endpoints.length > 0) {
+  //       const versions = await getAllVersions(project.endpoints, user.token);
+  //       dispatch({ type: "LOAD_VERSIONS", payload: versions });
+  //       console.log(versions);
+  //       // dispatch({ type: "LOAD_VERSIONS", payload: { versions } });
+  //     }
+  //   })();
+  // }, [projects]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -32,8 +56,7 @@ export default function ViewVersions() {
 
   return (
     <div className={classes.root}>
-      {versions.map((item) => {
-        console.log(item);
+      {versions.map((item, index) => {
         if (item && item.name) {
           return (
             <AccordionItem
@@ -41,7 +64,7 @@ export default function ViewVersions() {
               expanded={expanded}
               handleChange={handleChange}
               panel={item.name.toLowerCase()}
-              key={`version-${item.name}`}
+              key={`version-${item.name}-${index + 1}`}
             />
           );
         } else return null;

@@ -1,10 +1,16 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { CssBaseline, Typography, Container } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import {
+  CssBaseline,
+  Typography,
+  Container,
+  Button,
+  Box,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ControlledAccordion from "../components/Project/ControlledAccordion";
-import { useSelector } from "react-redux";
-import Error404 from "../components/error404";
+import EndpointContainer from "../components/Project/EndpointContainer";
+import { getProjectDetails } from "../axios/projects";
+import { getAuthenticatedUser } from "../helper functions/auth";
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -16,34 +22,74 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "capitalize",
     width: 300,
   },
+  btncontainer: {
+    textAlign: "center",
+  },
 }));
 
 export default function Project() {
-  const { projectname } = useParams();
-  // redux state
-  const projects = useSelector((state) => state.projects);
-  const apis = useSelector((state) => state.apis);
-  // console.log(projects);
-  const project = projects.filter(
-    ({ name }) => name && name.toLowerCase() === projectname.toLowerCase()
-  )[0];
-  console.log(project);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const history = useHistory();
+
+  async function load() {
+    const user = getAuthenticatedUser();
+    try {
+      const res = await getProjectDetails(user.projectId, user.token);
+      let projectFromDb = res.data.data;
+      setProject(projectFromDb);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response);
+      setLoading(false);
+      setError(true);
+    }
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
   const classes = useStyles();
 
-  if (!project) return <Error404 />;
+  if (loading) return <h1>Loading..</h1>;
 
-  return (
-    <Container component="main" className={classes.container}>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography variant="h5">PROJECT DETAILS</Typography>
-        <Typography variant="h6" className={classes.projectname}>
-          project name: {project.name}
-        </Typography>
-        <Typography variant="h6">{project.description}</Typography>
-        <Typography variant="h6">API details</Typography>
-        <ControlledAccordion apis={apis} project={project} />
-      </div>
-    </Container>
-  );
+  if (error) return <h1>Error occured</h1>;
+
+  if (project)
+    return (
+      <Container component="main" className={classes.container}>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography variant="h5">PROJECT DETAILS</Typography>
+          <Typography variant="h6" className={classes.projectname}>
+            project name: {project.name}
+          </Typography>
+          <Typography variant="h6">{project.description}</Typography>
+          <Typography variant="h6">Project token: {project.token}</Typography>
+          <Typography variant="h6">API details</Typography>
+
+          {project.endpoints.length === 0 && (
+            <Typography>Create endpoints to be viewed here.</Typography>
+          )}
+          <EndpointContainer endpoints={project.endpoints} />
+
+          <Box className={classes.btncontainer}>
+            <Button
+              onClick={() =>
+                history.push(`${window.location.pathname}/endpoint/add`)
+              }
+              variant="contained"
+              color="primary"
+            >
+              Add endpoint
+            </Button>
+          </Box>
+        </div>
+      </Container>
+    );
+
+  return null;
 }

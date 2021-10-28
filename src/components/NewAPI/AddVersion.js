@@ -9,7 +9,10 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SimpleSelect from "./SimpleSelect";
-import { useDispatch } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addVersion } from "../../redux/actions/versions";
+import { useHistory } from "react-router-dom";
+import { selectedProject } from "../../helper functions/utils";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -34,35 +37,68 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddVersion({ versionNumber, apiType }) {
+export default function AddVersion() {
   const classes = useStyles();
+
   const [name, setName] = useState("Get all users");
   const [statuscode, setStatuscode] = useState(200);
   const [responseJson, setResponseJson] = useState(`{"":""}`);
   const [requestJson, setRequestJson] = useState(null);
-  const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch({
-      type: "ADD_NEW_VERSION",
-      payload: {
-        name: name,
-        statusCode: statuscode,
-        response: responseJson,
-        request: requestJson,
-      },
-    });
+  const [project, setProject] = useState(null);
+  const [apis, setApis] = useState(null);
+  const [versions, setVersions] = useState(null);
+
+  const history = useHistory();
+
+  // const projects = useSelector((state) => state.projects);
+  // const project = selectedProject(history, projects);
+
+  // const user = useSelector((state) => state.user);
+  // const apis = useSelector((state) => state.apis);
+  let api;
+  if (project) api = apis.find((a) => a.projectId === project._id);
+
+  // const versions = useSelector((state) => state.versions);
+
+  // console.log(project);
+
+  // const dispatch = useDispatch();
+
+  const handleClick = async () => {
+    // const version = { name, statuscode, response: responseJson };
+    // version.request = requestJson ? requestJson : undefined;
+    // const data = { projectId: project._id, ...api, version, token: user.token };
+    // console.log(data);
+    // try {
+    //   const res = await addVersion(data);
+    //   console.log(res);
+    //   dispatch({
+    //     type: "ADD_NEW_VERSION",
+    //     payload: {
+    //       name: name,
+    //       statusCode: statuscode,
+    //       response: responseJson,
+    //       request: requestJson,
+    //       projectId: project.projectId,
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.log(error.response);
+    // }
   };
+
+  if (!Boolean(api)) return <Typography>Create API first.</Typography>;
 
   return (
     <>
       <CssBaseline />
       <Card className={classes.card}>
         <CardContent>
-          {versionNumber && (
+          {versions && (
             <>
               <Typography variant="h5" component="span">
-                Version {versionNumber}
+                Version {versions.length}
               </Typography>
               <TextField
                 className={classes.versionname}
@@ -74,7 +110,7 @@ export default function AddVersion({ versionNumber, apiType }) {
               />
             </>
           )}
-          {apiType === "POST" && (
+          {api.type === "POST" && (
             <TextField
               label="Request JSON"
               fullWidth

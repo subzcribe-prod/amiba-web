@@ -15,26 +15,21 @@ import {
   ListItem,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AddIcon from "@material-ui/icons/Add";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { handleLogout } from "../helper functions/auth";
 
 const drawerWidth = 240;
 
 const section1 = [
-  { text: "Sign up", icon: <PersonAddIcon />, link: "/signup" },
-  { text: "Login", icon: <AccountBoxIcon />, link: "/signin" },
-];
-const section2 = [
   { text: "Dashboard", icon: <DashboardIcon />, link: "/" },
   { text: "Create new project", icon: <AddIcon />, link: "/newproject" },
-  { text: "Starred", icon: <AccountBoxIcon />, link: "#" },
-  { text: "Send email", icon: <PersonAddIcon />, link: "#" },
-  { text: "Drafts", icon: <AccountBoxIcon />, link: "#" },
 ];
+const section2 = [{ text: "Logout", icon: <AccountBoxIcon /> }];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "inherit",
     color: "inherit",
   },
+  backicon: {
+    color: "white",
+  },
 }));
 
 function ResponsiveDrawer(props) {
@@ -89,15 +87,21 @@ function ResponsiveDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const history = useHistory();
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleBack = () => {
+    history.goBack();
   };
 
   const drawer = (
     <div>
       <Link to="/" className={classes.titleLink}>
         <Typography variant="h4" align="center" className={classes.title}>
-          Amiba
+          Ameeba
         </Typography>
       </Link>
       <Divider />
@@ -113,13 +117,17 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {section2.map(({ text, icon, link }, index) => (
-          <Link className={classes.link} to={link} key={text}>
+        {section2.map(({ text, icon }, index) => (
+          <div
+            className={classes.link}
+            onClick={() => handleLogout(history)}
+            key={text}
+          >
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          </Link>
+          </div>
         ))}
       </List>
     </div>
@@ -133,6 +141,9 @@ function ResponsiveDrawer(props) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
+          <IconButton onClick={handleBack}>
+            <ArrowBackIcon className={classes.backicon} />
+          </IconButton>
           <IconButton
             color="inherit"
             aria-label="open drawer"

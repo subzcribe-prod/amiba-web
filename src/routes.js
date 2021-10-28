@@ -7,7 +7,11 @@ import SignIn from "./pages/signin";
 import Home from "./pages/home";
 import NewProject from "./pages/newproject";
 import Project from "./pages/project";
-import NewAPI from "./pages/newapi";
+import Endpoint from "./pages/endpoint";
+import NewEndpoint from "./pages/newendpoint";
+import Demo from "./pages/demo";
+
+import ProtectedRoute from "./components/common/ProtectedRoute";
 
 function Routes() {
   return (
@@ -16,14 +20,24 @@ function Routes() {
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <ResponsiveDrawer>
-          <Route exact path="/newproject" component={NewProject} />
-          <Route exact path="/projects/:projectname" component={Project} />
-          <Route
+          <ProtectedRoute exact path="/newproject" component={NewProject} />
+          <ProtectedRoute
             exact
-            path="/projects/:projectname/addapi"
-            component={NewAPI}
+            path="/projects/:projectslug"
+            component={Project}
           />
-          <Route exact path="/" component={Home} />
+          <ProtectedRoute
+            exact
+            path="/projects/:project/:endpoint/add"
+            component={NewEndpoint}
+          />
+          <ProtectedRoute
+            exact
+            path="/projects/:project/:endpoint/view"
+            component={Endpoint}
+          />
+          <ProtectedRoute exact path="/demo" component={Demo} />
+          <ProtectedRoute exact path="/" component={Home} />
         </ResponsiveDrawer>
       </Switch>
     </Router>
