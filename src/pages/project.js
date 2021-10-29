@@ -31,6 +31,8 @@ export default function Project() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  // to force update when child component updates
+  const [forceUpdate, setForceUpdate] = useState();
 
   const history = useHistory();
 
@@ -50,7 +52,7 @@ export default function Project() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [forceUpdate]);
 
   const classes = useStyles();
 
@@ -74,7 +76,10 @@ export default function Project() {
           {project.endpoints.length === 0 && (
             <Typography>Create endpoints to be viewed here.</Typography>
           )}
-          <EndpointContainer endpoints={project.endpoints} />
+          <EndpointContainer
+            endpoints={project.endpoints}
+            setForceUpdate={setForceUpdate}
+          />
 
           <Box className={classes.btncontainer}>
             <Button

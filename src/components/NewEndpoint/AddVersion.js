@@ -40,7 +40,7 @@ const checkJson = (json) => {
   // const stringified = JSON.stringify(json);
   try {
     const parsed = JSON.parse(json);
-    if (typeof parsed === "object") {
+    if (Array.isArray(parsed)) {
       const stringified = JSON.stringify(json);
       return {
         parsed,
@@ -48,6 +48,7 @@ const checkJson = (json) => {
         valid: true,
       };
     }
+    return { valid: false, stringified: null, parsed: null };
   } catch (error) {}
   return { valid: false, stringified: null, parsed: null };
 };
@@ -66,7 +67,8 @@ export default function AddVersion({ requestType, endpointDetails }) {
     // check if the json entered is valid or not
     const { valid: resValid, stringified: resStringified } =
       checkJson(responseJson);
-    if (!resValid) return alert("please enter a valid response json");
+    if (!resValid)
+      return alert("please enter a valid response json. it must be an array.");
     // if json is valid store stringified json in state
     // same:check json and stoe in state
     if (requestType === "POST") {
@@ -75,15 +77,15 @@ export default function AddVersion({ requestType, endpointDetails }) {
       if (!reqValid) return alert("please enter a valid request json");
     }
     try {
-      // add a new version to existing endpoint
+      // first version while creating endpoint
       if (endpointDetails) {
         let user = getAuthenticatedUser();
         let version = {
           name: name,
-          response: resStringified,
+          response: responseJson,
           responseCode: statuscode,
         };
-        if (requestType === "POST") version.request = reqStringified;
+        if (requestType === "POST") version.request = requestJson;
         const data = {
           projectId: user.projectId,
           ...endpointDetails,
@@ -99,7 +101,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
           // console.log("response from add version, new endpoint: ", res);
         }
       }
-      // add first version while creating a new endpoint
+      // add version
       else {
         let user = getAuthenticatedUser();
         let data = {

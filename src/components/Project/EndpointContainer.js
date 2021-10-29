@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ControlledAccordion({ endpoints, project }) {
+export default function EndpointContainer({ endpoints, setForceUpdate }) {
   const classes = useStyles();
 
   if (!endpoints) return <Error404 />;
@@ -32,6 +32,7 @@ export default function ControlledAccordion({ endpoints, project }) {
       <Grid container spacing={3} className={classes.container}>
         {endpoints.map((item, index) => {
           if (item && item.name) {
+            item.setForceUpdate = setForceUpdate;
             return (
               <Grid
                 item
