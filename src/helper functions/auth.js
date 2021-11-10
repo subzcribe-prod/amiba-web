@@ -21,3 +21,7 @@ export const updateAuthenticatedUser = (prop, value) => {
   user[prop] = value;
   localStorage.setItem("user", JSON.stringify(user));
 };
+
+export const getAuthenticatedToken = () => {
+  return isAuthenticated() ? JSON.parse(localStorage.user).token : null;
+};

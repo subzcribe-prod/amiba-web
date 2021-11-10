@@ -14,6 +14,7 @@ import {
   updateAuthenticatedUser,
 } from "../../helper functions/auth";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import AlertDialog from "./AlertDialog";
 import { deleteEndpoint } from "../../axios/endpoints";
 
@@ -46,6 +47,11 @@ const useStyles = makeStyles({
     top: -10,
     right: -10,
   },
+  editicon: {
+    position: "relative",
+    top: -10,
+    right: -60,
+  },
   cardtitle: {
     display: "flex",
     alignItems: "flex-start",
@@ -72,6 +78,13 @@ export default function SimpleCard(props) {
     // update local storage with details of clicked endpoint
     updateAuthenticatedUser("endpointId", props._id);
     history.push(`${window.location.pathname}/${slug}/view`);
+  };
+
+  const handleEdit = () => {
+    // update local storage with details of clicked endpoint
+    updateAuthenticatedUser("endpointId", props._id);
+    // redirect to edit page
+    history.push(`${window.location.pathname}/${slug}/edit`);
   };
 
   // state of dialog
@@ -109,6 +122,14 @@ export default function SimpleCard(props) {
           <Typography variant="h5" component="h2" className={classes.cardtitle}>
             {name}
             {/* open cofirmation alert when dete icon is clicked */}
+            <IconButton
+              className={classes.editicon}
+              onClick={() => {
+                handleEdit();
+              }}
+            >
+              <EditIcon />
+            </IconButton>
             <IconButton
               className={classes.deleteicon}
               onClick={() => {

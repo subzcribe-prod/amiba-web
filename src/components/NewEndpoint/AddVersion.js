@@ -53,7 +53,7 @@ const checkJson = (json) => {
   return { valid: false, stringified: null, parsed: null };
 };
 
-export default function AddVersion({ requestType, endpointDetails }) {
+export default function AddVersion({ requestType, endpointDetails, edit }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
@@ -79,6 +79,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
     try {
       // first version while creating endpoint
       if (endpointDetails) {
+        // get user from local storage
         let user = getAuthenticatedUser();
         let version = {
           name: name,

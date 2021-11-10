@@ -35,22 +35,21 @@ export default function Endpoint() {
 
   const [showAddVersion, setShowAddVersion] = useState(false);
 
-  async function load() {
-    const user = getAuthenticatedUser();
-    try {
-      const res = await getEndpointDetails(user.endpointId, user.token);
-      let endpointFromDb = res.data.data;
-      endpointFromDb.url = res.data.url;
-      setEndpoint(endpointFromDb);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response);
-      setLoading(false);
-      setError(true);
-    }
-  }
-
   useEffect(() => {
+    async function load() {
+      const user = getAuthenticatedUser();
+      try {
+        const res = await getEndpointDetails(user.endpointId, user.token);
+        let endpointFromDb = res.data.data;
+        endpointFromDb.url = res.data.url;
+        setEndpoint(endpointFromDb);
+        setLoading(false);
+      } catch (error) {
+        console.log(error.response);
+        setLoading(false);
+        setError(true);
+      }
+    }
     load();
   }, []);
 

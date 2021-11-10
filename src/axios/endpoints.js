@@ -45,3 +45,10 @@ export const deleteEndpoint = (endpointId, data, token) =>
     headers: { auth: token },
     data,
   });
+
+export const updateEndpointDetails = (data, token) =>
+  axios.put(
+    `${process.env.REACT_APP_API}/endpoint/update`,
+    data,
+    header(token)
+  );

@@ -36,6 +36,11 @@ function Routes() {
             path="/projects/:project/:endpoint/view"
             component={Endpoint}
           />
+          <ProtectedRoute
+            exact
+            path="/projects/:project/:endpoint/edit"
+            component={() => <NewEndpoint edit />}
+          />
           <ProtectedRoute exact path="/demo" component={Demo} />
           <ProtectedRoute exact path="/" component={Home} />
         </ResponsiveDrawer>
