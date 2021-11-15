@@ -32,3 +32,10 @@ export const getAllVersions = async (endpointArray, token) => {
   });
   return response;
 };
+
+export const updateVersionDetails = (data, token) =>
+  axios.put(
+    `${process.env.REACT_APP_API}/endpoint/update/version`,
+    data,
+    header(token)
+  );

@@ -11,7 +11,7 @@ import SimpleSelect from "./SimpleSelect";
 import { useHistory } from "react-router-dom";
 import { addEndpoint, addVersion } from "../../axios/endpoints";
 import { getAuthenticatedUser } from "../../helper functions/auth";
-
+import checkJson from "../../util/checkjson";
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",
@@ -36,23 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const checkJson = (json) => {
-  // const stringified = JSON.stringify(json);
-  try {
-    const parsed = JSON.parse(json);
-    if (Array.isArray(parsed)) {
-      const stringified = JSON.stringify(json);
-      return {
-        parsed,
-        stringified,
-        valid: true,
-      };
-    }
-    return { valid: false, stringified: null, parsed: null };
-  } catch (error) {}
-  return { valid: false, stringified: null, parsed: null };
-};
-
 export default function AddVersion({ requestType, endpointDetails, edit }) {
   const classes = useStyles();
 
@@ -65,15 +48,13 @@ export default function AddVersion({ requestType, endpointDetails, edit }) {
 
   const handleClick = async () => {
     // check if the json entered is valid or not
-    const { valid: resValid, stringified: resStringified } =
-      checkJson(responseJson);
+    const { valid: resValid } = checkJson(responseJson);
     if (!resValid)
       return alert("please enter a valid response json. it must be an array.");
     // if json is valid store stringified json in state
     // same:check json and stoe in state
     if (requestType === "POST") {
-      const { valid: reqValid, stringified: reqStringified } =
-        checkJson(requestJson);
+      const { valid: reqValid } = checkJson(requestJson);
       if (!reqValid) return alert("please enter a valid request json");
     }
     try {
