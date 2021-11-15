@@ -54,7 +54,6 @@ export default function ViewVersion(props) {
     response: response,
     request: request,
   });
-  console.log(editedDetails);
 
   // helper funstion to update state of "editedDetails"
   const updateEditedDetails = (key, value) =>

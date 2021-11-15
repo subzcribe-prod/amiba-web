@@ -36,21 +36,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddVersion({ requestType, endpointDetails, edit }) {
+export default function AddVersion({ requestType, endpointDetails }) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [statuscode, setStatuscode] = useState(200);
-  const [responseJson, setResponseJson] = useState(``);
-  const [requestJson, setRequestJson] = useState(null);
+  const [responseJson, setResponseJson] = useState("");
+  const [requestJson, setRequestJson] = useState("");
 
   const history = useHistory();
 
   const handleClick = async () => {
     // check if the json entered is valid or not
     const { valid: resValid } = checkJson(responseJson);
-    if (!resValid)
-      return alert("please enter a valid response json. it must be an array.");
+    if (!resValid) return alert("please enter a valid response json.");
     // if json is valid store stringified json in state
     // same:check json and stoe in state
     if (requestType === "POST") {
@@ -93,6 +92,7 @@ export default function AddVersion({ requestType, endpointDetails, edit }) {
           endpointId: user.endpointId,
         };
         if (requestType === "POST") data.request = requestJson;
+        // console.log("sent data: ", data);
         const res = await addVersion(data, user.token);
         if (res.status === 200) {
           window.location.reload();
