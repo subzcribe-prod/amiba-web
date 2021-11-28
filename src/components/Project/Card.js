@@ -96,6 +96,7 @@ export default function SimpleCard(props) {
   // function to open dialog
   const openDialog = () => setDialog({ ...dialog, open: true });
   useEffect(() => {
+    // function to delete endpoint
     const handleDelete = async () => {
       try {
         const data = { projectId };
@@ -107,7 +108,7 @@ export default function SimpleCard(props) {
         console.log(error.response);
       }
     };
-    // if agree is clicked, proceed to delete the endpoint
+    // if agree is clicked, complete deletion(call function)
     if (dialog.clickedAgree) {
       handleDelete();
     }

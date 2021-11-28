@@ -66,7 +66,7 @@ export default function AddVersion({ requestType, endpointDetails }) {
           response: responseJson,
           responseCode: statuscode,
         };
-        if (requestType === "POST") version.request = requestJson;
+        if (requestType === "POST") version.requestPayload = requestJson;
         const data = {
           projectId: user.projectId,
           ...endpointDetails,

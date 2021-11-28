@@ -39,3 +39,9 @@ export const updateVersionDetails = (data, token) =>
     data,
     header(token)
   );
+
+export const deleteVersion = (data, token) =>
+  axios.delete(`${process.env.REACT_APP_API}/endpoint/remove/version`, {
+    headers: { auth: token },
+    data,
+  });

@@ -26,7 +26,6 @@ export default function Home({ history }) {
     const user = getAuthenticatedUser();
     try {
       const res = await getProjects(user.userId, user.token);
-      console.log(res);
       const projectsFromDb =
         res.data && res.data.data && res.data.data.projects;
       setProjects(projectsFromDb);

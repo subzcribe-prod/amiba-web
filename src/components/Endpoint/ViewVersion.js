@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
@@ -11,9 +11,11 @@ import {
 } from "@material-ui/core";
 import Switch from "./Switch";
 import EditIcon from "@material-ui/icons/Edit";
-import { updateVersionDetails } from "../../axios/versions";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { deleteVersion, updateVersionDetails } from "../../axios/versions";
 import { getAuthenticatedUser } from "../../helper functions/auth";
 import checkJson from "../../util/checkjson";
+import AlertDialog from "./AlertDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +46,7 @@ export default function ViewVersion(props) {
     isActive,
     setCheckedList,
   } = props;
+  console.log(id);
 
   // check if edit is clicked
   const [isEdit, setIsEdit] = useState(false);
@@ -53,6 +56,10 @@ export default function ViewVersion(props) {
     responseCode: responseCode,
     response: response,
     request: request,
+  });
+  const [dialog, setDialog] = useState({
+    open: false,
+    clickedAgree: false,
   });
 
   // helper funstion to update state of "editedDetails"
@@ -83,6 +90,29 @@ export default function ViewVersion(props) {
       console.error("Error: ", error);
     }
   };
+
+  // on click handler for delete
+  useEffect(() => {
+    const handleDelete = async () => {
+      try {
+        const user = getAuthenticatedUser();
+        const data = {
+          endpointId: user.endpointId,
+          versionId: id,
+        };
+        const res = await deleteVersion(data, user.token);
+        // if delete successful reload to load new versions
+        if (res.data.success) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (dialog.clickedAgree && !dialog.open) {
+      handleDelete();
+    }
+  }, [dialog]);
 
   if (isEdit)
     return (
@@ -141,6 +171,7 @@ export default function ViewVersion(props) {
 
   return (
     <Card className={classes.root}>
+      <AlertDialog dialog={dialog} setDialog={setDialog} />
       <CardContent>
         <Box className={classes.header}>
           {name && (
@@ -150,10 +181,18 @@ export default function ViewVersion(props) {
           )}
           <Box>
             <IconButton
-              style={{ marginRight: 10 }}
+              size="small"
+              style={{ marginRight: 5 }}
               onClick={() => setIsEdit(true)}
             >
               <EditIcon />
+            </IconButton>
+            <IconButton
+              size="small"
+              style={{ marginRight: 5 }}
+              onClick={() => setDialog((state) => ({ ...state, open: true }))}
+            >
+              <DeleteIcon />
             </IconButton>
             <Switch
               id={id}

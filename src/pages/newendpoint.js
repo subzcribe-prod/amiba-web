@@ -86,7 +86,7 @@ export default function NewAPI({ edit }) {
       />
       <SimpleSelect
         title="API Type"
-        options={["GET", "POST", "UPDATE", "DELETE"]}
+        options={["GET", "POST", "PUT", "DELETE"]}
         defaultValue="GET"
         value={apiType}
         setValue={setApiType}
