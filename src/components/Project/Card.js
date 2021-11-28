@@ -17,12 +17,16 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import AlertDialog from "./AlertDialog";
 import { deleteEndpoint } from "../../axios/endpoints";
+import { Box } from "@mui/system";
 
 const useStyles = makeStyles({
   root: {
     height: "100%",
     padding: 16,
     position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 14,
@@ -42,20 +46,31 @@ const useStyles = makeStyles({
   cardcontent: {
     marginBottom: 8,
   },
-  deleteicon: {
-    position: "relative",
-    top: -10,
-    right: -10,
-  },
-  editicon: {
-    position: "relative",
-    top: -10,
-    right: -60,
-  },
+  // deleteicon: {
+  //   position: "relative",
+  //   top: -10,
+  //   right: -10,
+  // },
+  // editicon: {
+  //   position: "relative",
+  //   top: -10,
+  //   right: -60,
+  // },
   cardtitle: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
+    wordBreak: "break-all",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    marginBottom: "1em",
+  },
+  icon: {
+    padding: 5,
   },
 });
 
@@ -120,26 +135,30 @@ export default function SimpleCard(props) {
         <CardContent
           className={`${classes.removepadding} ${classes.cardcontent}`}
         >
-          <Typography variant="h5" component="h2" className={classes.cardtitle}>
-            {name}
-            {/* open cofirmation alert when dete icon is clicked */}
-            <IconButton
-              className={classes.editicon}
-              onClick={() => {
-                handleEdit();
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              className={classes.deleteicon}
-              onClick={() => {
-                openDialog();
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Typography>
+          <Box className={classes.header}>
+            <Typography variant="h5" className={classes.cardtitle}>
+              {name}
+            </Typography>
+            <Box>
+              {/* open cofirmation alert when dete icon is clicked */}
+              <IconButton
+                className={classes.icon}
+                onClick={() => {
+                  handleEdit();
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                className={classes.icon}
+                onClick={() => {
+                  openDialog();
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          </Box>
           <Typography variant="body2" component="p">
             Request type: {requestType}
           </Typography>
